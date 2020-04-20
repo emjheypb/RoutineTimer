@@ -28,7 +28,7 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
     private var itemsCount = 0
     private var totalTime = 0
     private var overallTotalTime = 0
-    private var isStarted = true
+    private var isStarted = false
     
     private var timer = Timer()
     private var overallTimer = Timer()
@@ -320,7 +320,9 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
                 setsStepper.value -= 1
                 
                 resetAll()
-                startRestTimer()
+                if isStarted {
+                    startRestTimer()
+                }
             } else {
                 stop()
                 stopTimer()
