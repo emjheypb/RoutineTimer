@@ -22,12 +22,12 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.revealViewController()?.rearViewRevealWidth = self.view.frame.size.width - 70
+        revealViewController()?.rearViewRevealWidth = self.view.frame.size.width - 70
         
-        self.workoutTbl.delegate = self
-        self.workoutTbl.dataSource = self
+        workoutTbl.delegate = self
+        workoutTbl.dataSource = self
         
-        self.workoutTbl.isEditing = editTbl
+        workoutTbl.isEditing = editTbl
         
         NotificationCenter.default.addObserver(self, selector: #selector(addItem(_:)), name: NOTIF_WORKOUT, object: nil)
     }
@@ -73,27 +73,6 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         workout.moveItem(fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let profile = AddRoutineVC()
-//        profile.modalPresentationStyle = .custom
-//        present(profile, animated: true) {
-//            profile.updateRoutine(index: indexPath.row)
-//        }
-//
-//        workoutTbl.deselectRow(at: indexPath, animated: true)
-//    }
-    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let button = UIButton(type: .system)
-//        button.setImage(UIImage(systemName: "arrowtriangle.right"), for: .normal)
-//        button.tintColor = .systemBackground
-//        return button
-//    }
-    
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 40
-//    }
-    
     // Selectors
     @objc func addItem(_ notif: Notification) {
         workoutTbl.reloadData()
@@ -115,7 +94,7 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
             }))
 
-            refreshAlert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action: UIAlertAction!) in
+            refreshAlert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (action: UIAlertAction!) in
                 self.workout.clearItems()
                 self.workoutTbl.reloadData()
             }))
@@ -127,13 +106,16 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     @IBAction func editBtnPressed(_ sender: Any) {
         editTbl = !editTbl
         workoutTbl.isEditing = editTbl
-        deleteBtn.isHidden = !editTbl
+//        deleteBtn.isHidden = !editTbl
         
         if editTbl {
             editBtn.setImage(UIImage(systemName: "multiply"), for: .normal)
         } else {
             editBtn.setImage(UIImage(systemName: "pencil"), for: .normal)
         }
+    }
+    
+    @IBAction func saveAsSetBtnPressed(_ sender: Any) {
     }
     
 }

@@ -12,5 +12,4 @@ struct Workout {
     public private(set) var title : String!
     public private(set) var description : String!
     public private(set) var setList : [Routine]!
-    public var isCollapsed : Bool! = false
 }

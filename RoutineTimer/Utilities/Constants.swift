@@ -11,6 +11,7 @@ import Foundation
 // NOTIFICATIONS
 let NOTIF_ROUTINE = Notification.Name("notifAddRoutine")
 let NOTIF_WORKOUT = Notification.Name("notifWorkout")
+let NOTIF_SETS = Notification.Name("notifSets")
 
 // SEGUES
 let TO_ROUTINE_SETS = "toRoutineSets"

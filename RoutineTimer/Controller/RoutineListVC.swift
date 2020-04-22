@@ -10,7 +10,6 @@ import UIKit
 
 class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var routinesTbl: UITableView!
     
     private let routineService = RoutineService.instance
@@ -23,6 +22,13 @@ class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         routinesTbl.dataSource = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(addRoutine(_:)), name: NOTIF_ROUTINE, object: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == TO_ADD_ROUTINE {
+            let destinationVC = segue.destination as! AddRoutineVC
+            destinationVC.update = routinesTbl.indexPathForSelectedRow?.row
+        }
     }
     
     // DELEGATES
@@ -53,8 +59,15 @@ class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         if editingStyle == .delete {
             routineService.deleteRoutine(index: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-            NotificationCenter.default.post(name: NOTIF_WORKOUT, object: nil)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = routinesTbl.cellForRow(at: indexPath)
+        cell!.selectedBackgroundView = nil
+        
+        performSegue(withIdentifier: TO_ADD_ROUTINE, sender: nil)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // @IBActions
@@ -63,14 +76,7 @@ class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     @IBAction func addBtnPressed(_ sender: Any) {
-//        let profile = AddRoutineVC()
-//        profile.modalPresentationStyle = .custom
-//        present(profile, animated: true, completion: nil)
-        
         performSegue(withIdentifier: TO_ADD_ROUTINE, sender: nil)
-    }
-    
-    @IBAction func editBtnPressed(_ sender: Any) {
     }
     
     // @objc
@@ -79,6 +85,16 @@ class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     @objc func addBtnTapped(_ sender: UIButton){
+        let indexPath = IndexPath(row: sender.tag, section: 0)
+        let cell = routinesTbl.cellForRow(at: indexPath)
+        let bgView = UIView()
+        
+        bgView.backgroundColor = .link
+        cell!.selectedBackgroundView = bgView
+        
+        routinesTbl.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+        routinesTbl.deselectRow(at: indexPath, animated: true)
+        
         let routine = routineService.routines[sender.tag]
         
         if routine.count == nil {

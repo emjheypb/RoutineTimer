@@ -36,19 +36,20 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
     private let session = AVAudioSession.sharedInstance()
     
     private let gf = GlobalFunctions()
-    private let workout = WorkoutService.instance
+    private let workoutService = WorkoutService.instance
+    private var workoutBreakdown = [Routine]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         menuBtn.addTarget(self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)), for: .touchUpInside)
-        self.view.addGestureRecognizer((self.revealViewController().panGestureRecognizer())!)
-        self.view.addGestureRecognizer((self.revealViewController().tapGestureRecognizer())!)
+        view.addGestureRecognizer((self.revealViewController().panGestureRecognizer())!)
+        view.addGestureRecognizer((self.revealViewController().tapGestureRecognizer())!)
         
         NotificationCenter.default.addObserver(self, selector: #selector(addItem(_:)), name: NOTIF_WORKOUT, object: nil)
         
-        self.routinePckr.delegate = self
-        self.routinePckr.dataSource = self
+        routinePckr.delegate = self
+        routinePckr.dataSource = self
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(HomeVC.dismissKeyboard(_:)))
         view.addGestureRecognizer(tap)
@@ -57,11 +58,14 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
         
         UIApplication.shared.isIdleTimerDisabled = true
         
-        RoutineService.instance.addRoutine(routine: Routine(title: "Rest", time: "01:00"))
-        RoutineService.instance.addRoutine(routine: Routine(title: "Punches", time: "03:00"))
-        RoutineService.instance.addRoutine(routine: Routine(title: "Hip Rotations", count: 10))
+        for routineData in DataBankService.instance.routineData {
+            RoutineService.instance.addRoutine(routine: routineData)
+        }
         
-        print(RoutineService.instance.routines)
+        for setData in DataBankService.instance.setData {
+            SetService.instance.addSet(set: setData)
+        }
+        
     }
 
     // Delegates
@@ -72,10 +76,6 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return itemsCount
     }
-    
-//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//        return workout.items[row].title
-//    }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return 80
@@ -88,7 +88,7 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
         }
         
         label.font = UIFont(name: "AvenirNext-Heavy", size: 25)
-        label.text =  workout.items[row].title
+        label.text =  workoutBreakdown[row].title
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 2
         label.textAlignment = .center
@@ -112,7 +112,22 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
     @objc func addItem(_ notif: Notification) {
         var selectedItem = routinePckr.selectedRow(inComponent: 0)
         
-        itemsCount = workout.items.count
+        workoutBreakdown.removeAll()
+        for thing in workoutService.items {
+            if thing.setList == nil {
+                if thing.description.contains(":") {
+                    workoutBreakdown.append(Routine(title: thing.title, time: thing.description))
+                } else {
+                    workoutBreakdown.append(Routine(title: thing.title, count: gf.strToInt(str: thing.description)))
+                }
+            } else {
+                for routineInSet in thing.setList {
+                    workoutBreakdown.append(routineInSet)
+                }
+            }
+        }
+        
+        itemsCount = workoutBreakdown.count
         routinePckr.reloadAllComponents()
         
         if selectedItem >= itemsCount {
@@ -164,7 +179,7 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
     }
     
     @objc func restTimer(_ timer: Timer) {
-        let items = workout.items
+        let items = workoutBreakdown
         let row = routinePckr.selectedRow(inComponent: 0)
         
         if totalTime != 0 {
@@ -182,14 +197,14 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
             player.play()
             
             if isStarted {
-                if items[row].description.contains(":") {
+                if items[row].count == nil {
                     startTimer()
                 }
             } else {
                 start()
                 stopTimer()
                 
-                if items[row].description.contains(":") {
+                if items[row].count == nil {
                     startTimer()
                 }
             }
@@ -206,12 +221,12 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
     // Customs
     func setProgress(selected: Int) {
         if itemsCount != 0 {
-            let item = workout.items[selected]
+            let item = workoutBreakdown[selected]
             
-            if item.description.contains(":") {
-                progressLbl.text = "\(item.description!)"
+            if item.count == nil {
+                progressLbl.text = item.time
             } else {
-                progressLbl.text = "\(item.description!) Counts"
+                progressLbl.text = "\(item.count!) Counts"
             }
         } else { progressLbl.text = "" }
     }

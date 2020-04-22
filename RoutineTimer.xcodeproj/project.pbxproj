@@ -20,6 +20,10 @@
 		5F951427244EDF3A002A6FA2 /* WorkoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F951426244EDF3A002A6FA2 /* WorkoutService.swift */; };
 		5FA70B5A244F4293003597B2 /* RoutineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA70B59244F4293003597B2 /* RoutineCell.swift */; };
 		5FA70B5C244F4305003597B2 /* SetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA70B5B244F4305003597B2 /* SetCell.swift */; };
+		5FD6ADD72450A25300C5F2EC /* SetHeadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6ADD62450A25300C5F2EC /* SetHeadCell.swift */; };
+		5FD6ADD92450CB9B00C5F2EC /* SetHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6ADD82450CB9B00C5F2EC /* SetHeaderCell.swift */; };
+		5FDC26AD245011D5008A2FDA /* DataBankService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC26AC245011D5008A2FDA /* DataBankService.swift */; };
+		5FDC26AF245015EF008A2FDA /* SetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC26AE245015EF008A2FDA /* SetService.swift */; };
 		5FFE9CB824479045006CE0CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CB724479045006CE0CC /* AppDelegate.swift */; };
 		5FFE9CBA24479045006CE0CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CB924479045006CE0CC /* SceneDelegate.swift */; };
 		5FFE9CBF24479045006CE0CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FFE9CBD24479045006CE0CC /* Main.storyboard */; };
@@ -72,6 +76,10 @@
 		5F951426244EDF3A002A6FA2 /* WorkoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutService.swift; sourceTree = "<group>"; };
 		5FA70B59244F4293003597B2 /* RoutineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineCell.swift; sourceTree = "<group>"; };
 		5FA70B5B244F4305003597B2 /* SetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCell.swift; sourceTree = "<group>"; };
+		5FD6ADD62450A25300C5F2EC /* SetHeadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHeadCell.swift; sourceTree = "<group>"; };
+		5FD6ADD82450CB9B00C5F2EC /* SetHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHeaderCell.swift; sourceTree = "<group>"; };
+		5FDC26AC245011D5008A2FDA /* DataBankService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBankService.swift; sourceTree = "<group>"; };
+		5FDC26AE245015EF008A2FDA /* SetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetService.swift; sourceTree = "<group>"; };
 		5FFE9CB424479045006CE0CC /* RoutineTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoutineTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FFE9CB724479045006CE0CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FFE9CB924479045006CE0CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -192,6 +200,8 @@
 				5F514624244A39EB00FD2BE0 /* ErrorTextField.swift */,
 				5FA70B59244F4293003597B2 /* RoutineCell.swift */,
 				5FA70B5B244F4305003597B2 /* SetCell.swift */,
+				5FD6ADD62450A25300C5F2EC /* SetHeadCell.swift */,
+				5FD6ADD82450CB9B00C5F2EC /* SetHeaderCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -236,8 +246,10 @@
 		5FFE9CE724481FC4006CE0CC /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5FDC26AC245011D5008A2FDA /* DataBankService.swift */,
 				5FFE9CE824481FE1006CE0CC /* RoutineService.swift */,
 				5F951426244EDF3A002A6FA2 /* WorkoutService.swift */,
+				5FDC26AE245015EF008A2FDA /* SetService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -407,10 +419,14 @@
 				5F7F1964244960E50098EDBF /* RoundedView.swift in Sources */,
 				5FA70B5C244F4305003597B2 /* SetCell.swift in Sources */,
 				5F134006244EAC960029BA86 /* SetListVC.swift in Sources */,
+				5FD6ADD92450CB9B00C5F2EC /* SetHeaderCell.swift in Sources */,
+				5FDC26AD245011D5008A2FDA /* DataBankService.swift in Sources */,
 				5FFE9CDB24479A62006CE0CC /* GradientView.swift in Sources */,
 				5F514623244A2E5200FD2BE0 /* GlobalFunctions.swift in Sources */,
+				5FDC26AF245015EF008A2FDA /* SetService.swift in Sources */,
 				5FFE9CED244824CF006CE0CC /* WorkoutCell.swift in Sources */,
 				5F13400B244EDDC90029BA86 /* SetRoutines.swift in Sources */,
+				5FD6ADD72450A25300C5F2EC /* SetHeadCell.swift in Sources */,
 				5FFE9CBA24479045006CE0CC /* SceneDelegate.swift in Sources */,
 				5F7F19622449607E0098EDBF /* RoundedButton.swift in Sources */,
 				5FFE9CD4244792A3006CE0CC /* SWRevealViewController.m in Sources */,

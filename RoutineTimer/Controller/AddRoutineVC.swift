@@ -11,13 +11,21 @@ import UIKit
 class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
     @IBOutlet weak var bgView: UIView!
+    
     @IBOutlet weak var timePkr: UIPickerView!
+    
     @IBOutlet weak var countSwitch: UISwitch!
+    
     @IBOutlet weak var titleTxtbx: UITextField!
     @IBOutlet weak var countTxtbx: UITextField!
+    
     @IBOutlet weak var addBtn: RoundedButton!
+    
     @IBOutlet weak var minsLbl: UILabel!
     @IBOutlet weak var secsLbl: UILabel!
+    @IBOutlet weak var routineNameLbl: UILabel!
+    @IBOutlet weak var timeLbl: UILabel!
+    @IBOutlet weak var countLbl: UILabel!
     
     private var pickerData: [[String]] = [[String]]()
     private var data: [String] = []
@@ -25,32 +33,42 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     private var mins = "00"
     private var secs = "00"
     
-    private var update = 0
+    public var update : Int!
     
     private let gf = GlobalFunctions()
-    private let routines = RoutineService.instance
-    private let workout = WorkoutService.instance
+    private let routineService = RoutineService.instance
+    private let workoutService = WorkoutService.instance
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.timePkr.delegate = self
-        self.timePkr.dataSource = self
+        timePkr.delegate = self
+        timePkr.dataSource = self
         
-        self.titleTxtbx.delegate = self
+        titleTxtbx.delegate = self
         
         setupView()
     }
 
     // Actions
     @IBAction func addBtnPressed(_ sender: Any) {
-        minsLbl.textColor = .label
-        secsLbl.textColor = .label
+        view.endEditing(true)
+        
+        if !countSwitch.isOn {
+            minsLbl.textColor = .label
+            secsLbl.textColor = .label
+            timeLbl.textColor = .label
+        }
+        
+        countLbl.textColor = .label
+        routineNameLbl.textColor = .label
+        
         titleTxtbx.layer.borderColor = UIColor.placeholderText.cgColor
         countTxtbx.layer.borderColor = UIColor.placeholderText.cgColor
         
         guard let title = titleTxtbx.text, titleTxtbx.text != "" else {
             titleTxtbx.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            routineNameLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
             return
         }
         
@@ -61,42 +79,46 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             let count = Int (countTxtbx.text ?? "0") ?? 0
             if count < 1 || count > 9999 {
                 countTxtbx.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                countLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
                 return
             }
             
             let routine = Routine(title: title, count: count)
-            let item = Workout(title: title, description: "\(routine.count!)", setList: nil)
             
-            if addBtn.titleLabel?.text! == "ADD" {
-                routines.addRoutine(routine: routine)
-                workout.addItem(item: item)
+            if update == nil {
+                routineService.addRoutine(routine: routine)
             } else {
-                routines.updateRoutine(index: update, routine: routine)
+                routineService.updateRoutine(index: update, routine: routine)
             }
 
             dismiss(animated: true, completion: nil)
         } else {
             if mins != "00" || secs != "00" {
                 let routine = Routine(title: title, time: "\(mins) : \(secs)")
-                let item = Workout(title: title, description: "\(routine.time!)", setList: nil)
+//                let item = Workout(title: title, description: "\(routine.time!)", setList: nil)
                 
-                if addBtn.titleLabel?.text! == "ADD" {
-                    routines.addRoutine(routine: routine)
-                    workout.addItem(item: item)
+                if update == nil {
+                    routineService.addRoutine(routine: routine)
+//                    workoutService.addItem(item: item)
                 } else {
-                    routines.updateRoutine(index: update, routine: routine)
+                    routineService.updateRoutine(index: update, routine: routine)
                 }
 
                 dismiss(animated: true, completion: nil)
             } else {
                 minsLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
                 secsLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                timeLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
             }
         }
     }
     
     @IBAction func countEditingDidChange(_ sender: Any) {
-        countSwitch.setOn(true, animated: true)
+        if countTxtbx.text != "" {
+            countSwitch.setOn(true, animated: true)
+        } else {
+            countSwitch.setOn(false, animated: true)
+        }
         switchChange(countSwitch.isOn)
     }
     
@@ -106,15 +128,40 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     // Customs
     func setupView() {
-//        let closeTap = UITapGestureRecognizer(target: self, action: #selector(AddRoutineVC.closeTouch(_:)))
-//        bgView.addGestureRecognizer(closeTap)
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(AddRoutineVC.dismissKeyboard(_:)))
         view.addGestureRecognizer(tap)
         
-        addBtn.setTitle("ADD", for: .normal)
-        
         populateData()
+        
+        if update == nil {
+            addBtn.setTitle("ADD", for: .normal)
+        } else {
+            addBtn.setTitle("UPDATE", for: .normal)
+
+            let routine = routineService.routines[update]
+
+            titleTxtbx.text = routine.title
+            countSwitch.setOn(routine.count != nil, animated: true)
+            
+            if routine.count != nil {
+                countTxtbx.text = "\(routine.count!)"
+                
+                minsLbl.textColor = .placeholderText
+                secsLbl.textColor = .placeholderText
+                timeLbl.textColor = .placeholderText
+                timePkr.isUserInteractionEnabled = false
+            } else {
+                let time = gf.getTimeInt(timeStr: routine.time)
+                let m = time[1]
+                let s = time[0]
+
+                timePkr.selectRow(m, inComponent: 0, animated: true)
+                self.mins = pickerData[0][m].padding(toLength: 2, withPad: "0", startingAt: 0)
+
+                timePkr.selectRow(s, inComponent: 1, animated: true)
+                self.secs = pickerData[1][s].padding(toLength: 2, withPad: "0", startingAt: 0)
+            }
+        }
     }
     
     func populateData() {
@@ -135,39 +182,18 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         data.removeAll()
     }
     
-    func updateRoutine(index: Int) {
-        update = index
-        addBtn.setTitle("UPDATE", for: .normal)
-        
-        let routine = routines.routines[index]
-        
-        titleTxtbx.text = routine.title
-        countSwitch.setOn(routine.count == nil, animated: true)
-        
-        if routine.count == nil {
-            countTxtbx.text = "\(routine.count!)"
-        } else {
-            let time = gf.getTimeInt(timeStr: routine.time)
-            let m = time[1] - 1
-            let s = time[0] - 1
-            
-            timePkr.selectRow(m, inComponent: 0, animated: true)
-            self.mins = pickerData[0][m].padding(toLength: 2, withPad: "0", startingAt: 0)
-            
-            timePkr.selectRow(s, inComponent: 1, animated: true)
-            self.secs = pickerData[1][s].padding(toLength: 2, withPad: "0", startingAt: 0)
-        }
-    }
-    
     func switchChange(_ isOn: Bool) {
+        view.endEditing(true)
         timePkr.isUserInteractionEnabled = !isOn
         
         if isOn {
             minsLbl.textColor = .placeholderText
             secsLbl.textColor = .placeholderText
+            timeLbl.textColor = .placeholderText
         } else {
             minsLbl.textColor = .label
             secsLbl.textColor = .label
+            timeLbl.textColor = .label
         }
     }
 

@@ -1,17 +1,18 @@
 //
-//  SetCell.swift
+//  SetHeaderSell.swift
 //  RoutineTimer
 //
-//  Created by Mariah Baysic on 4/21/20.
+//  Created by Mariah Baysic on 4/23/20.
 //  Copyright © 2020 SpacedOut. All rights reserved.
 //
 
 import UIKit
 
-class SetCell: UITableViewCell {
+class SetHeaderCell: UITableViewCell {
 
+    @IBOutlet weak var collapseBtn: UIButton!
     @IBOutlet weak var titleLbl: UILabel!
-    @IBOutlet weak var descriptionLbl: UILabel!
+    @IBOutlet weak var addBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

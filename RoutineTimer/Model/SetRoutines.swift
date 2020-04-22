@@ -11,5 +11,5 @@ import Foundation
 struct SetRoutines {
     public private(set) var title : String!
     public private(set) var routines : [Routine]!
-    public var isCollapsed : Bool!
+    var isCollapsed : Bool!
 }
