@@ -1,18 +1,18 @@
 //
-//  ItemCell.swift
+//  RoutineCell.swift
 //  RoutineTimer
 //
-//  Created by Mariah Baysic on 4/16/20.
+//  Created by Mariah Baysic on 4/21/20.
 //  Copyright © 2020 SpacedOut. All rights reserved.
 //
 
 import UIKit
 
-class RoutineTableViewCell: UITableViewCell {
+class RoutineCell: UITableViewCell {
 
     @IBOutlet weak var titleLbl: UILabel!
-    @IBOutlet weak var timeCountLbl: UILabel!
-    @IBOutlet weak var duplicateBtn: UIButton!
+    @IBOutlet weak var decriptionLbl: UILabel!
+    @IBOutlet weak var addBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,5 +24,5 @@ class RoutineTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
 }

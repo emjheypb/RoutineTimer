@@ -1,5 +1,5 @@
 //
-//  ItemsService.swift
+//  RoutineService.swift
 //  RoutineTimer
 //
 //  Created by Mariah Baysic on 4/16/20.
@@ -11,35 +11,30 @@ import Foundation
 class RoutineService {
     static let instance = RoutineService()
     
-    var items = [Routine]()
+    var routines = [Routine]()
     
-    func clearItems() {
-        items.removeAll()
-        NotificationCenter.default.post(name: NOTIF_ADD_ROUTINE, object: nil)
+    func addRoutine(routine: Routine) {
+        routines.append(routine)
+        routines.sort(by: {$0.title < $1.title})
+        NotificationCenter.default.post(name: NOTIF_ROUTINE, object: nil)
     }
     
-    func addItem(item: Routine) {
-        items.append(item)
+    func moveRoutine(fromIndex: Int, toIndex: Int) {
+        let routine = routines[fromIndex]
+        routines.remove(at: fromIndex)
+        routines.insert(routine, at: toIndex)
         
-        NotificationCenter.default.post(name: NOTIF_ADD_ROUTINE, object: nil)
+        NotificationCenter.default.post(name: NOTIF_ROUTINE, object: nil)
     }
     
-    func moveItem(fromIndex: Int, toIndex: Int) {
-        let item = items[fromIndex]
-        items.remove(at: fromIndex)
-        items.insert(item, at: toIndex)
+    func deleteRoutine(index: Int) {
+        routines.remove(at: index)
+    }
+    
+    func updateRoutine(index: Int, routine: Routine) {
+        routines.remove(at: index)
+        routines.insert(routine, at: index)
         
-        NotificationCenter.default.post(name: NOTIF_ADD_ROUTINE, object: nil)
-    }
-    
-    func deleteItem(index: Int) {
-        items.remove(at: index)
-    }
-    
-    func updateItems(index: Int, item: Routine) {
-        items.remove(at: index)
-        items.insert(item, at: index)
-        
-        NotificationCenter.default.post(name: NOTIF_ADD_ROUTINE, object: nil)
+        NotificationCenter.default.post(name: NOTIF_ROUTINE, object: nil)
     }
 }

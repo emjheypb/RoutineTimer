@@ -9,20 +9,22 @@
 import Foundation
 
 class GlobalFunctions {
-    func getTimeInt(timeStr: String) -> [String : Int] {
+    func getTimeInt(timeStr: String) -> [Int] {
         let time = timeStr.split{$0 == ":"}.map(String.init)
         
         switch time.count {
         case 3:
-            return ["hours" : strToInt(str: time[0]), "minutes" : strToInt(str: time[1]), "seconds" : strToInt(str: time[2])]
+            return [strToInt(str: time[2]), strToInt(str: time[1]), strToInt(str: time[0])]
         case 2:
-            return ["hours" : 0, "minutes" : strToInt(str: time[0]), "seconds" : strToInt(str: time[1])]
+            return [strToInt(str: time[1]), strToInt(str: time[0]), 0]
+        case 1:
+            return [strToInt(str: time[0]), 0, 0]
         default:
-            return ["hours" : 0, "minutes" : 0, "seconds" : strToInt(str: time[0])]
+            return [0, 0, 0]
         }
     }
     
-    func getTimeString(seconds: Int) -> [String : String] {
+    func getTimeString(seconds: Int) -> [String] {
         let h = (seconds / 60) / 60
         let m = (seconds / 60) % 60
         let s = (seconds % 60) % 60
@@ -31,11 +33,11 @@ class GlobalFunctions {
         let mins = zeroLeftPadding(str: String (m))
         let secs = zeroLeftPadding(str: String (s))
         
-        return ["hours" : hrs, "minutes" : mins, "seconds" : secs]
+        return [secs, mins, hrs]
     }
     
-    func getTotalSeconds(hrs: Int, mins: Int, secs: Int) -> Int {
-        return ((hrs * 60) * 60) + (mins * 60) + secs
+    func getTotalSeconds(time: [Int]) -> Int {
+        return ((time[2] * 60) * 60) + (time[1] * 60) + time[0]
     }
     
     func zeroLeftPadding(str: String) -> String {

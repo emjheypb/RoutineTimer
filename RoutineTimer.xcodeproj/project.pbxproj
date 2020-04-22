@@ -7,12 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F134004244EAC880029BA86 /* RoutineListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F134003244EAC880029BA86 /* RoutineListVC.swift */; };
+		5F134006244EAC960029BA86 /* SetListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F134005244EAC960029BA86 /* SetListVC.swift */; };
+		5F134009244EDDAC0029BA86 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F134008244EDDAC0029BA86 /* Workout.swift */; };
+		5F13400B244EDDC90029BA86 /* SetRoutines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F13400A244EDDC90029BA86 /* SetRoutines.swift */; };
+		5F37835E244F12EF007983CA /* RoutineTimerTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F37835D244F12EF007983CA /* RoutineTimerTesting.swift */; };
+		5F378365244F1391007983CA /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F514622244A2E5200FD2BE0 /* GlobalFunctions.swift */; };
 		5F514623244A2E5200FD2BE0 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F514622244A2E5200FD2BE0 /* GlobalFunctions.swift */; };
 		5F514625244A39EB00FD2BE0 /* ErrorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F514624244A39EB00FD2BE0 /* ErrorTextField.swift */; };
-		5F77ED202448E66900D6EB02 /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F77ED1F2448E66900D6EB02 /* SeparatorView.swift */; };
 		5F7F19622449607E0098EDBF /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7F19612449607E0098EDBF /* RoundedButton.swift */; };
 		5F7F1964244960E50098EDBF /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7F1963244960E50098EDBF /* RoundedView.swift */; };
-		5F9015E5244AEB1800801593 /* RoutineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9015E4244AEB1800801593 /* RoutineCollectionViewCell.swift */; };
+		5F951427244EDF3A002A6FA2 /* WorkoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F951426244EDF3A002A6FA2 /* WorkoutService.swift */; };
+		5FA70B5A244F4293003597B2 /* RoutineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA70B59244F4293003597B2 /* RoutineCell.swift */; };
+		5FA70B5C244F4305003597B2 /* SetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA70B5B244F4305003597B2 /* SetCell.swift */; };
 		5FFE9CB824479045006CE0CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CB724479045006CE0CC /* AppDelegate.swift */; };
 		5FFE9CBA24479045006CE0CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CB924479045006CE0CC /* SceneDelegate.swift */; };
 		5FFE9CBF24479045006CE0CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FFE9CBD24479045006CE0CC /* Main.storyboard */; };
@@ -21,24 +28,50 @@
 		5FFE9CCC244790AD006CE0CC /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 5FFE9CCB244790AD006CE0CC /* Sounds */; };
 		5FFE9CD4244792A3006CE0CC /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CD2244792A3006CE0CC /* SWRevealViewController.m */; };
 		5FFE9CD624479517006CE0CC /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CD524479517006CE0CC /* HomeVC.swift */; };
-		5FFE9CD82447952A006CE0CC /* RoutineListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CD72447952A006CE0CC /* RoutineListVC.swift */; };
+		5FFE9CD82447952A006CE0CC /* WorkoutListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CD72447952A006CE0CC /* WorkoutListVC.swift */; };
 		5FFE9CDB24479A62006CE0CC /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CDA24479A62006CE0CC /* GradientView.swift */; };
 		5FFE9CE124479E26006CE0CC /* AddRoutineVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FFE9CDF24479E26006CE0CC /* AddRoutineVC.xib */; };
 		5FFE9CE32447AA34006CE0CC /* AddRoutineVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CE22447AA34006CE0CC /* AddRoutineVC.swift */; };
 		5FFE9CE624481C2F006CE0CC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CE524481C2F006CE0CC /* Constants.swift */; };
 		5FFE9CE924481FE1006CE0CC /* RoutineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CE824481FE1006CE0CC /* RoutineService.swift */; };
 		5FFE9CEB24482064006CE0CC /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CEA24482064006CE0CC /* Routine.swift */; };
-		5FFE9CED244824CF006CE0CC /* RoutineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CEC244824CF006CE0CC /* RoutineTableViewCell.swift */; };
+		5FFE9CED244824CF006CE0CC /* WorkoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CEC244824CF006CE0CC /* WorkoutCell.swift */; };
 		5FFE9CF1244852E1006CE0CC /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CF0244852E1006CE0CC /* CircleButton.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5F37834F244EFD37007983CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5FFE9CAC24479045006CE0CC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5FFE9CB324479045006CE0CC;
+			remoteInfo = RoutineTimer;
+		};
+		5F378360244F12EF007983CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5FFE9CAC24479045006CE0CC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5FFE9CB324479045006CE0CC;
+			remoteInfo = RoutineTimer;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		5F134003244EAC880029BA86 /* RoutineListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineListVC.swift; sourceTree = "<group>"; };
+		5F134005244EAC960029BA86 /* SetListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetListVC.swift; sourceTree = "<group>"; };
+		5F134008244EDDAC0029BA86 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
+		5F13400A244EDDC90029BA86 /* SetRoutines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRoutines.swift; sourceTree = "<group>"; };
+		5F37834A244EFD37007983CA /* RoutineTimerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RoutineTimerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F37835B244F12EE007983CA /* RoutineTimerTesting.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RoutineTimerTesting.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F37835D244F12EF007983CA /* RoutineTimerTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineTimerTesting.swift; sourceTree = "<group>"; };
+		5F37835F244F12EF007983CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F514622244A2E5200FD2BE0 /* GlobalFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
 		5F514624244A39EB00FD2BE0 /* ErrorTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTextField.swift; sourceTree = "<group>"; };
-		5F77ED1F2448E66900D6EB02 /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
 		5F7F19612449607E0098EDBF /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		5F7F1963244960E50098EDBF /* RoundedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
-		5F9015E4244AEB1800801593 /* RoutineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineCollectionViewCell.swift; sourceTree = "<group>"; };
+		5F951426244EDF3A002A6FA2 /* WorkoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutService.swift; sourceTree = "<group>"; };
+		5FA70B59244F4293003597B2 /* RoutineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineCell.swift; sourceTree = "<group>"; };
+		5FA70B5B244F4305003597B2 /* SetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCell.swift; sourceTree = "<group>"; };
 		5FFE9CB424479045006CE0CC /* RoutineTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoutineTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FFE9CB724479045006CE0CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FFE9CB924479045006CE0CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,18 +84,32 @@
 		5FFE9CD2244792A3006CE0CC /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		5FFE9CD3244792A3006CE0CC /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		5FFE9CD524479517006CE0CC /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
-		5FFE9CD72447952A006CE0CC /* RoutineListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineListVC.swift; sourceTree = "<group>"; };
+		5FFE9CD72447952A006CE0CC /* WorkoutListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListVC.swift; sourceTree = "<group>"; };
 		5FFE9CDA24479A62006CE0CC /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		5FFE9CDF24479E26006CE0CC /* AddRoutineVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddRoutineVC.xib; sourceTree = "<group>"; };
 		5FFE9CE22447AA34006CE0CC /* AddRoutineVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRoutineVC.swift; sourceTree = "<group>"; };
 		5FFE9CE524481C2F006CE0CC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5FFE9CE824481FE1006CE0CC /* RoutineService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineService.swift; sourceTree = "<group>"; };
 		5FFE9CEA24482064006CE0CC /* Routine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
-		5FFE9CEC244824CF006CE0CC /* RoutineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineTableViewCell.swift; sourceTree = "<group>"; };
+		5FFE9CEC244824CF006CE0CC /* WorkoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCell.swift; sourceTree = "<group>"; };
 		5FFE9CF0244852E1006CE0CC /* CircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5F378347244EFD37007983CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F378358244F12EE007983CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5FFE9CB124479045006CE0CC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -73,10 +120,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F37835C244F12EE007983CA /* RoutineTimerTesting */ = {
+			isa = PBXGroup;
+			children = (
+				5F37835D244F12EF007983CA /* RoutineTimerTesting.swift */,
+				5F37835F244F12EF007983CA /* Info.plist */,
+			);
+			path = RoutineTimerTesting;
+			sourceTree = "<group>";
+		};
 		5FFE9CAB24479045006CE0CC = {
 			isa = PBXGroup;
 			children = (
 				5FFE9CB624479045006CE0CC /* RoutineTimer */,
+				5F37835C244F12EE007983CA /* RoutineTimerTesting */,
 				5FFE9CB524479045006CE0CC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,6 +142,8 @@
 			isa = PBXGroup;
 			children = (
 				5FFE9CB424479045006CE0CC /* RoutineTimer.app */,
+				5F37834A244EFD37007983CA /* RoutineTimerTests.xctest */,
+				5F37835B244F12EE007983CA /* RoutineTimerTesting.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,8 +173,10 @@
 			isa = PBXGroup;
 			children = (
 				5FFE9CD524479517006CE0CC /* HomeVC.swift */,
-				5FFE9CD72447952A006CE0CC /* RoutineListVC.swift */,
+				5FFE9CD72447952A006CE0CC /* WorkoutListVC.swift */,
+				5F134003244EAC880029BA86 /* RoutineListVC.swift */,
 				5FFE9CE22447AA34006CE0CC /* AddRoutineVC.swift */,
+				5F134005244EAC960029BA86 /* SetListVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -124,13 +185,13 @@
 			isa = PBXGroup;
 			children = (
 				5FFE9CDA24479A62006CE0CC /* GradientView.swift */,
-				5FFE9CEC244824CF006CE0CC /* RoutineTableViewCell.swift */,
+				5FFE9CEC244824CF006CE0CC /* WorkoutCell.swift */,
 				5FFE9CF0244852E1006CE0CC /* CircleButton.swift */,
-				5F77ED1F2448E66900D6EB02 /* SeparatorView.swift */,
 				5F7F19612449607E0098EDBF /* RoundedButton.swift */,
 				5F7F1963244960E50098EDBF /* RoundedView.swift */,
 				5F514624244A39EB00FD2BE0 /* ErrorTextField.swift */,
-				5F9015E4244AEB1800801593 /* RoutineCollectionViewCell.swift */,
+				5FA70B59244F4293003597B2 /* RoutineCell.swift */,
+				5FA70B5B244F4305003597B2 /* SetCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -139,6 +200,8 @@
 			isa = PBXGroup;
 			children = (
 				5FFE9CEA24482064006CE0CC /* Routine.swift */,
+				5F13400A244EDDC90029BA86 /* SetRoutines.swift */,
+				5F134008244EDDAC0029BA86 /* Workout.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -174,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				5FFE9CE824481FE1006CE0CC /* RoutineService.swift */,
+				5F951426244EDF3A002A6FA2 /* WorkoutService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -181,6 +245,42 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5F378349244EFD37007983CA /* RoutineTimerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5F378353244EFD37007983CA /* Build configuration list for PBXNativeTarget "RoutineTimerTests" */;
+			buildPhases = (
+				5F378346244EFD37007983CA /* Sources */,
+				5F378347244EFD37007983CA /* Frameworks */,
+				5F378348244EFD37007983CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5F378350244EFD37007983CA /* PBXTargetDependency */,
+			);
+			name = RoutineTimerTests;
+			productName = RoutineTimerTests;
+			productReference = 5F37834A244EFD37007983CA /* RoutineTimerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		5F37835A244F12EE007983CA /* RoutineTimerTesting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5F378362244F12EF007983CA /* Build configuration list for PBXNativeTarget "RoutineTimerTesting" */;
+			buildPhases = (
+				5F378357244F12EE007983CA /* Sources */,
+				5F378358244F12EE007983CA /* Frameworks */,
+				5F378359244F12EE007983CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5F378361244F12EF007983CA /* PBXTargetDependency */,
+			);
+			name = RoutineTimerTesting;
+			productName = RoutineTimerTesting;
+			productReference = 5F37835B244F12EE007983CA /* RoutineTimerTesting.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		5FFE9CB324479045006CE0CC /* RoutineTimer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5FFE9CC824479049006CE0CC /* Build configuration list for PBXNativeTarget "RoutineTimer" */;
@@ -208,6 +308,14 @@
 				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = SpacedOut;
 				TargetAttributes = {
+					5F378349244EFD37007983CA = {
+						CreatedOnToolsVersion = 11.4;
+						TestTargetID = 5FFE9CB324479045006CE0CC;
+					};
+					5F37835A244F12EE007983CA = {
+						CreatedOnToolsVersion = 11.4;
+						TestTargetID = 5FFE9CB324479045006CE0CC;
+					};
 					5FFE9CB324479045006CE0CC = {
 						CreatedOnToolsVersion = 11.4;
 						LastSwiftMigration = 1140;
@@ -228,11 +336,27 @@
 			projectRoot = "";
 			targets = (
 				5FFE9CB324479045006CE0CC /* RoutineTimer */,
+				5F378349244EFD37007983CA /* RoutineTimerTests */,
+				5F37835A244F12EE007983CA /* RoutineTimerTesting */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5F378348244EFD37007983CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F378359244F12EE007983CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5FFE9CB224479045006CE0CC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -248,24 +372,45 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5F378346244EFD37007983CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F378357244F12EE007983CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F378365244F1391007983CA /* GlobalFunctions.swift in Sources */,
+				5F37835E244F12EF007983CA /* RoutineTimerTesting.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5FFE9CB024479045006CE0CC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F77ED202448E66900D6EB02 /* SeparatorView.swift in Sources */,
 				5FFE9CE32447AA34006CE0CC /* AddRoutineVC.swift in Sources */,
-				5FFE9CD82447952A006CE0CC /* RoutineListVC.swift in Sources */,
+				5F134009244EDDAC0029BA86 /* Workout.swift in Sources */,
+				5FA70B5A244F4293003597B2 /* RoutineCell.swift in Sources */,
+				5FFE9CD82447952A006CE0CC /* WorkoutListVC.swift in Sources */,
 				5FFE9CE924481FE1006CE0CC /* RoutineService.swift in Sources */,
 				5FFE9CF1244852E1006CE0CC /* CircleButton.swift in Sources */,
 				5F514625244A39EB00FD2BE0 /* ErrorTextField.swift in Sources */,
+				5F134004244EAC880029BA86 /* RoutineListVC.swift in Sources */,
 				5FFE9CD624479517006CE0CC /* HomeVC.swift in Sources */,
+				5F951427244EDF3A002A6FA2 /* WorkoutService.swift in Sources */,
 				5FFE9CB824479045006CE0CC /* AppDelegate.swift in Sources */,
 				5FFE9CEB24482064006CE0CC /* Routine.swift in Sources */,
 				5F7F1964244960E50098EDBF /* RoundedView.swift in Sources */,
-				5F9015E5244AEB1800801593 /* RoutineCollectionViewCell.swift in Sources */,
+				5FA70B5C244F4305003597B2 /* SetCell.swift in Sources */,
+				5F134006244EAC960029BA86 /* SetListVC.swift in Sources */,
 				5FFE9CDB24479A62006CE0CC /* GradientView.swift in Sources */,
 				5F514623244A2E5200FD2BE0 /* GlobalFunctions.swift in Sources */,
-				5FFE9CED244824CF006CE0CC /* RoutineTableViewCell.swift in Sources */,
+				5FFE9CED244824CF006CE0CC /* WorkoutCell.swift in Sources */,
+				5F13400B244EDDC90029BA86 /* SetRoutines.swift in Sources */,
 				5FFE9CBA24479045006CE0CC /* SceneDelegate.swift in Sources */,
 				5F7F19622449607E0098EDBF /* RoundedButton.swift in Sources */,
 				5FFE9CD4244792A3006CE0CC /* SWRevealViewController.m in Sources */,
@@ -274,6 +419,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5F378350244EFD37007983CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5FFE9CB324479045006CE0CC /* RoutineTimer */;
+			targetProxy = 5F37834F244EFD37007983CA /* PBXContainerItemProxy */;
+		};
+		5F378361244F12EF007983CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5FFE9CB324479045006CE0CC /* RoutineTimer */;
+			targetProxy = 5F378360244F12EF007983CA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5FFE9CBD24479045006CE0CC /* Main.storyboard */ = {
@@ -295,6 +453,86 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5F378351244EFD37007983CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W83ZFFV5H6;
+				INFOPLIST_FILE = RoutineTimerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.spacedout.RoutineTimerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RoutineTimer.app/RoutineTimer";
+			};
+			name = Debug;
+		};
+		5F378352244EFD37007983CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W83ZFFV5H6;
+				INFOPLIST_FILE = RoutineTimerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.spacedout.RoutineTimerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RoutineTimer.app/RoutineTimer";
+			};
+			name = Release;
+		};
+		5F378363244F12EF007983CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W83ZFFV5H6;
+				INFOPLIST_FILE = RoutineTimerTesting/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.spacedout.RoutineTimerTesting;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RoutineTimer.app/RoutineTimer";
+			};
+			name = Debug;
+		};
+		5F378364244F12EF007983CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W83ZFFV5H6;
+				INFOPLIST_FILE = RoutineTimerTesting/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.spacedout.RoutineTimerTesting;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RoutineTimer.app/RoutineTimer";
+			};
+			name = Release;
+		};
 		5FFE9CC624479049006CE0CC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -455,6 +693,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5F378353244EFD37007983CA /* Build configuration list for PBXNativeTarget "RoutineTimerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F378351244EFD37007983CA /* Debug */,
+				5F378352244EFD37007983CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5F378362244F12EF007983CA /* Build configuration list for PBXNativeTarget "RoutineTimerTesting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F378363244F12EF007983CA /* Debug */,
+				5F378364244F12EF007983CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5FFE9CAF24479045006CE0CC /* Build configuration list for PBXProject "RoutineTimer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

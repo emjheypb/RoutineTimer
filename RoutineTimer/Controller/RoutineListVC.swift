@@ -1,8 +1,8 @@
 //
-//  SetupVC.swift
+//  RoutineListVC.swift
 //  RoutineTimer
 //
-//  Created by Mariah Baysic on 4/16/20.
+//  Created by Mariah Baysic on 4/21/20.
 //  Copyright © 2020 SpacedOut. All rights reserved.
 //
 
@@ -10,126 +10,81 @@ import UIKit
 
 class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet weak var itemsTableView: UITableView!
     @IBOutlet weak var editBtn: UIButton!
-    @IBOutlet weak var deleteBtn: UIButton!
+    @IBOutlet weak var routinesTbl: UITableView!
     
-    private var editTbl = false
+    private let routineService = RoutineService.instance
+    private let workoutService = WorkoutService.instance
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.revealViewController()?.rearViewRevealWidth = self.view.frame.size.width - 70
         
-        self.itemsTableView.delegate = self
-        self.itemsTableView.dataSource = self
+        routinesTbl.delegate = self
+        routinesTbl.dataSource = self
         
-        self.itemsTableView.isEditing = editTbl
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(RoutineListVC.addItem(_:)), name: NOTIF_ADD_ROUTINE, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addRoutine(_:)), name: NOTIF_ROUTINE, object: nil)
     }
     
-    // Delegates
+    // DELEGATES
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        RoutineService.instance.items.count
+        return routineService.routines.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let item = RoutineService.instance.items[indexPath.row]
-        
-        if let cell = itemsTableView.dequeueReusableCell(withIdentifier: "ItemCell") as? RoutineTableViewCell {
-            let title = item.title
-            let counts = item.isByCount
+        if let cell = routinesTbl.dequeueReusableCell(withIdentifier: "RoutineCell") as? RoutineCell {
+            let routine = routineService.routines[indexPath.row]
             
-            cell.titleLbl.text = title
-            
-            if counts! {
-                cell.timeCountLbl.text = "~\(item.count!)"
+            cell.titleLbl.text = routine.title
+            if routine.count == nil {
+                cell.decriptionLbl.text = routine.time
             } else {
-                cell.timeCountLbl.text = "\(item.minutes ?? "00") : \(item.seconds ?? "00")"
+                cell.decriptionLbl.text = "\(routine.count!)"
             }
             
-            cell.duplicateBtn.tag = indexPath.row
-            cell.duplicateBtn.addTarget(self, action: #selector(duplicateTapped(_:)), for: .touchUpInside)
+            cell.addBtn.tag = indexPath.row
+            cell.addBtn.addTarget(self, action: #selector(addBtnTapped(_:)), for: .touchUpInside)
             
             return cell
         }
-        
         return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            RoutineService.instance.deleteItem(index: indexPath.row)
+            routineService.deleteRoutine(index: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-            NotificationCenter.default.post(name: NOTIF_ADD_ROUTINE, object: nil)
+            NotificationCenter.default.post(name: NOTIF_WORKOUT, object: nil)
         }
     }
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-            return .delete
+    // @IBActions
+    @IBAction func backBtnPressed(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
     
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        RoutineService.instance.moveItem(fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let profile = AddRoutineVC()
-        profile.modalPresentationStyle = .custom
-        present(profile, animated: true) {
-            profile.updateItem(index: indexPath.row)
-        }
-        
-        itemsTableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func tableViewDidEndMultipleSelectionInteraction(_ tableView: UITableView) {
-        print("End")
-    }
-    
-    // Selectors
-    @objc func addItem(_ notif: Notification) {
-        itemsTableView.reloadData()
-    }
-    
-    @objc func duplicateTapped(_ sender: UIButton){
-        RoutineService.instance.addItem(item: RoutineService.instance.items[sender.tag])
-    }
-    
-    // Actions
     @IBAction func addBtnPressed(_ sender: Any) {
-        let profile = AddRoutineVC()
-        profile.modalPresentationStyle = .custom
-        present(profile, animated: true, completion: nil)
-    }
-    
-    @IBAction func deleteBtnPressed(_ sender: Any) {
-        if RoutineService.instance.items.count > 0 {
-            let refreshAlert = UIAlertController(title: "Clear List", message: "", preferredStyle: .alert)
-
-            refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-            }))
-
-            refreshAlert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action: UIAlertAction!) in
-                RoutineService.instance.clearItems()
-                self.itemsTableView.reloadData()
-            }))
-
-            present(refreshAlert, animated: true, completion: nil)
-        }
+//        let profile = AddRoutineVC()
+//        profile.modalPresentationStyle = .custom
+//        present(profile, animated: true, completion: nil)
+        
+        performSegue(withIdentifier: TO_ADD_ROUTINE, sender: nil)
     }
     
     @IBAction func editBtnPressed(_ sender: Any) {
-        editTbl = !editTbl
-        itemsTableView.isEditing = editTbl
-        deleteBtn.isHidden = !editTbl
+    }
+    
+    // @objc
+    @objc func addRoutine(_ notif: Notification) {
+        routinesTbl.reloadData()
+    }
+    
+    @objc func addBtnTapped(_ sender: UIButton){
+        let routine = routineService.routines[sender.tag]
         
-        if editTbl {
-            editBtn.setImage(UIImage(systemName: "multiply"), for: .normal)
+        if routine.count == nil {
+            workoutService.addItem(item: Workout(title: routine.title, description: routine.time))
         } else {
-            editBtn.setImage(UIImage(systemName: "pencil"), for: .normal)
+            workoutService.addItem(item: Workout(title: routine.title, description: "\(routine.count!)"))
         }
     }
     

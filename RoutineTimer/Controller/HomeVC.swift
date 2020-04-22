@@ -36,6 +36,7 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
     private let session = AVAudioSession.sharedInstance()
     
     private let gf = GlobalFunctions()
+    private let workout = WorkoutService.instance
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +45,7 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
         self.view.addGestureRecognizer((self.revealViewController().panGestureRecognizer())!)
         self.view.addGestureRecognizer((self.revealViewController().tapGestureRecognizer())!)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(HomeVC.addItem(_:)), name: NOTIF_ADD_ROUTINE, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addItem(_:)), name: NOTIF_WORKOUT, object: nil)
         
         self.routinePckr.delegate = self
         self.routinePckr.dataSource = self
@@ -56,6 +57,11 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
         
         UIApplication.shared.isIdleTimerDisabled = true
         
+        RoutineService.instance.addRoutine(routine: Routine(title: "Rest", time: "01:00"))
+        RoutineService.instance.addRoutine(routine: Routine(title: "Punches", time: "03:00"))
+        RoutineService.instance.addRoutine(routine: Routine(title: "Hip Rotations", count: 10))
+        
+        print(RoutineService.instance.routines)
     }
 
     // Delegates
@@ -68,7 +74,7 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
     }
     
 //    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//        return RoutineService.instance.items[row].title
+//        return workout.items[row].title
 //    }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
@@ -82,7 +88,7 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
         }
         
         label.font = UIFont(name: "AvenirNext-Heavy", size: 25)
-        label.text =  RoutineService.instance.items[row].title
+        label.text =  workout.items[row].title
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 2
         label.textAlignment = .center
@@ -106,7 +112,7 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
     @objc func addItem(_ notif: Notification) {
         var selectedItem = routinePckr.selectedRow(inComponent: 0)
         
-        itemsCount = RoutineService.instance.items.count
+        itemsCount = workout.items.count
         routinePckr.reloadAllComponents()
         
         if selectedItem >= itemsCount {
@@ -122,7 +128,7 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
             totalTime -= 1
             
             let time = gf.getTimeString(seconds: totalTime)
-            progressLbl.text = "\(time["minutes"]!) : \(time["seconds"]!)"
+            progressLbl.text = "\(time[1]) : \(time[0])"
         } else {
             stopTimer()
             activateAudio()
@@ -158,7 +164,7 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
     }
     
     @objc func restTimer(_ timer: Timer) {
-        let items = RoutineService.instance.items
+        let items = workout.items
         let row = routinePckr.selectedRow(inComponent: 0)
         
         if totalTime != 0 {
@@ -176,17 +182,16 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
             player.play()
             
             if isStarted {
-                if !items[row].isByCount {
+                if items[row].description.contains(":") {
                     startTimer()
                 }
             } else {
                 start()
                 stopTimer()
                 
-                if !items[row].isByCount {
+                if items[row].description.contains(":") {
                     startTimer()
                 }
-                
             }
         }
     }
@@ -195,18 +200,18 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
         overallTotalTime += 1
         
         let time = gf.getTimeString(seconds: overallTotalTime)
-        overallTimerLbl.text = "\(time["hours"]!) : \(time["minutes"]!) : \(time["seconds"]!)"
+        overallTimerLbl.text = "\(time[2]) : \(time[1]) : \(time[0])"
     }
     
     // Customs
     func setProgress(selected: Int) {
         if itemsCount != 0 {
-            let item = RoutineService.instance.items[selected]
+            let item = workout.items[selected]
             
-            if item.isByCount {
-                progressLbl.text = "\(item.count!) Counts"
+            if item.description.contains(":") {
+                progressLbl.text = "\(item.description!)"
             } else {
-                progressLbl.text = "\(item.minutes ?? "00") : \(item.seconds ?? "00")"
+                progressLbl.text = "\(item.description!) Counts"
             }
         } else { progressLbl.text = "" }
     }
@@ -217,7 +222,7 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
     
     func startTimer() {
         let time = gf.getTimeInt(timeStr: progressLbl.text!)
-        totalTime = gf.getTotalSeconds(hrs: 0, mins: time["minutes"]!, secs: time["seconds"]!)
+        totalTime = gf.getTotalSeconds(time: [time[0], time[1], 0])
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
     }
@@ -234,7 +239,7 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
     
     func resetRestTimer(seconds: Int) {
         let time = gf.getTimeString(seconds: seconds)
-        restCountLbl.text = "\(time["minutes"]!) : \(time["seconds"]!)"
+        restCountLbl.text = "\(time[1]) : \(time[0])"
     }
     
     func resetSets(sets: Double) {
@@ -261,7 +266,7 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
     
     func startOverallTimer() {
         let time = gf.getTimeInt(timeStr: overallTimerLbl.text!)
-        overallTotalTime = gf.getTotalSeconds(hrs: time["hours"]!, mins: time["minutes"]!, secs: time["seconds"]!)
+        overallTotalTime = gf.getTotalSeconds(time: [time[0], time[1], time[2]])
         overallTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateOverallTimer(_:)), userInfo: nil, repeats: true)
     }
     

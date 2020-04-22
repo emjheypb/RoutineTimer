@@ -9,4 +9,9 @@
 import Foundation
 
 // NOTIFICATIONS
-let NOTIF_ADD_ROUTINE = Notification.Name("notifAddRoutine")
+let NOTIF_ROUTINE = Notification.Name("notifAddRoutine")
+let NOTIF_WORKOUT = Notification.Name("notifWorkout")
+
+// SEGUES
+let TO_ROUTINE_SETS = "toRoutineSets"
+let TO_ADD_ROUTINE = "toAddRoutine"

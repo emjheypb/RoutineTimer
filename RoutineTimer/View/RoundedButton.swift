@@ -11,9 +11,21 @@ import UIKit
 @IBDesignable
 class RoundedButton: UIButton {
     
-    @IBInspectable var cornerRadius: CGFloat = 0.5 {
+    @IBInspectable var cornerRadius: CGFloat = 5 {
         didSet {
             self.layer.cornerRadius = cornerRadius
+        }
+    }
+    
+    @IBInspectable var borderColor: UIColor = .systemBackground {
+        didSet {
+            self.layer.borderColor = borderColor.cgColor
+        }
+    }
+    
+    @IBInspectable var borderSize: CGFloat = 0 {
+        didSet {
+            self.layer.borderWidth = borderSize
         }
     }
     
@@ -29,6 +41,9 @@ class RoundedButton: UIButton {
     
     func setupView() {
         self.layer.cornerRadius = cornerRadius
+        self.layer.borderColor = borderColor.cgColor
+        self.layer.borderWidth = borderSize
+        self.clipsToBounds = true
     }
 
 

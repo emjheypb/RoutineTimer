@@ -1,5 +1,5 @@
 //
-//  AddItem.swift
+//  AddRoutineVC.swift
 //  RoutineTimer
 //
 //  Created by Mariah Baysic on 4/16/20.
@@ -26,6 +26,10 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     private var secs = "00"
     
     private var update = 0
+    
+    private let gf = GlobalFunctions()
+    private let routines = RoutineService.instance
+    private let workout = WorkoutService.instance
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,23 +64,27 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 return
             }
             
-            let item = Routine(title: title, minutes: mins, seconds: secs, isByCount: countSwitch.isOn, count: count)
+            let routine = Routine(title: title, count: count)
+            let item = Workout(title: title, description: "\(routine.count!)", setList: nil)
             
             if addBtn.titleLabel?.text! == "ADD" {
-                RoutineService.instance.addItem(item: item)
+                routines.addRoutine(routine: routine)
+                workout.addItem(item: item)
             } else {
-                RoutineService.instance.updateItems(index: update, item: item)
+                routines.updateRoutine(index: update, routine: routine)
             }
 
             dismiss(animated: true, completion: nil)
         } else {
             if mins != "00" || secs != "00" {
-                let item = Routine(title: title, minutes: mins, seconds: secs, isByCount: countSwitch.isOn)
+                let routine = Routine(title: title, time: "\(mins) : \(secs)")
+                let item = Workout(title: title, description: "\(routine.time!)", setList: nil)
                 
                 if addBtn.titleLabel?.text! == "ADD" {
-                    RoutineService.instance.addItem(item: item)
+                    routines.addRoutine(routine: routine)
+                    workout.addItem(item: item)
                 } else {
-                    RoutineService.instance.updateItems(index: update, item: item)
+                    routines.updateRoutine(index: update, routine: routine)
                 }
 
                 dismiss(animated: true, completion: nil)
@@ -89,17 +97,17 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     @IBAction func countEditingDidChange(_ sender: Any) {
         countSwitch.setOn(true, animated: true)
-        timePkr.isUserInteractionEnabled = !countSwitch.isOn
+        switchChange(countSwitch.isOn)
     }
     
     @IBAction func countSwitchChanged(_ sender: Any) {
-        timePkr.isUserInteractionEnabled = !countSwitch.isOn
+        switchChange(countSwitch.isOn)
     }
     
     // Customs
     func setupView() {
-        let closeTap = UITapGestureRecognizer(target: self, action: #selector(AddRoutineVC.closeTouch(_:)))
-        bgView.addGestureRecognizer(closeTap)
+//        let closeTap = UITapGestureRecognizer(target: self, action: #selector(AddRoutineVC.closeTouch(_:)))
+//        bgView.addGestureRecognizer(closeTap)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(AddRoutineVC.dismissKeyboard(_:)))
         view.addGestureRecognizer(tap)
@@ -127,25 +135,39 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         data.removeAll()
     }
     
-    func updateItem(index: Int) {
+    func updateRoutine(index: Int) {
         update = index
         addBtn.setTitle("UPDATE", for: .normal)
         
-        let item = RoutineService.instance.items[index]
-        let mins = Int (item.minutes ?? "0") ?? 1 - 1
-        let secs = Int (item.seconds ?? "0") ?? 1 - 1
+        let routine = routines.routines[index]
         
-        titleTxtbx.text = item.title
-        countSwitch.setOn(item.isByCount, animated: true)
+        titleTxtbx.text = routine.title
+        countSwitch.setOn(routine.count == nil, animated: true)
         
-        if item.isByCount {
-            countTxtbx.text = "\(item.count ?? 0)"
+        if routine.count == nil {
+            countTxtbx.text = "\(routine.count!)"
         } else {
-            timePkr.selectRow(mins, inComponent: 0, animated: true)
-            self.mins = pickerData[0][mins].padding(toLength: 2, withPad: "0", startingAt: 0)
+            let time = gf.getTimeInt(timeStr: routine.time)
+            let m = time[1] - 1
+            let s = time[0] - 1
             
-            timePkr.selectRow(secs, inComponent: 1, animated: true)
-            self.secs = pickerData[1][secs].padding(toLength: 2, withPad: "0", startingAt: 0)
+            timePkr.selectRow(m, inComponent: 0, animated: true)
+            self.mins = pickerData[0][m].padding(toLength: 2, withPad: "0", startingAt: 0)
+            
+            timePkr.selectRow(s, inComponent: 1, animated: true)
+            self.secs = pickerData[1][s].padding(toLength: 2, withPad: "0", startingAt: 0)
+        }
+    }
+    
+    func switchChange(_ isOn: Bool) {
+        timePkr.isUserInteractionEnabled = !isOn
+        
+        if isOn {
+            minsLbl.textColor = .placeholderText
+            secsLbl.textColor = .placeholderText
+        } else {
+            minsLbl.textColor = .label
+            secsLbl.textColor = .label
         }
     }
 
