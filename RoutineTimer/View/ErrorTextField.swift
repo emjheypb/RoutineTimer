@@ -25,6 +25,10 @@ class ErrorTextField: UITextField {
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor.placeholderText.cgColor
         self.layer.cornerRadius = 10
+        
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: self.frame.height))
+        self.leftView = paddingView
+        self.leftViewMode = UITextField.ViewMode.always
     }
 
 }

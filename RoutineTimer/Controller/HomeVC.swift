@@ -96,6 +96,13 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
         return label
     }
     
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        stop()
+        stopTimer()
+
+        setProgress(selected: row)
+    }
+    
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         do {
             try session.setActive(false)

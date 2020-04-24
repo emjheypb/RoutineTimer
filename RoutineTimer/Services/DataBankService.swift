@@ -43,13 +43,15 @@ class DataBankService {
             ], isCollapsed: false),
         SetRoutines(title: "Morning Stretch", routines: [
                 Routine(title: "Overhead Shoulder", time: "00 : 30"),
-                Routine(title: "Side Shoulder (R)", time: "00 : 30"),
-                Routine(title: "Side Shoulder (L)", time: "00 : 30"),
+                Routine(title: "Side Shoulder (R)", time: "00 : 15"),
+                Routine(title: "Side Shoulder (L)", time: "00 : 15"),
                 Routine(title: "Back Shoulder", time: "00 : 30"),
                 Routine(title: "Core", time: "00 : 30"),
                 Routine(title: "Hamstrings", time: "00 : 30"),
-                Routine(title: "Glutes", time: "00 : 30"),
-                Routine(title: "Quads", time: "00 : 30"),
+                Routine(title: "Glutes (R)", time: "00 : 15"),
+                Routine(title: "Glutes (L)", time: "00 : 15"),
+                Routine(title: "Quads (R)", time: "00 : 15"),
+                Routine(title: "Quads (L)", time: "00 : 15"),
                 Routine(title: "Calf Raises", time: "00 : 30")
             ], isCollapsed: false),
         SetRoutines(title: "Recovery Workout", routines: [

@@ -23,7 +23,6 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     @IBOutlet weak var minsLbl: UILabel!
     @IBOutlet weak var secsLbl: UILabel!
-    @IBOutlet weak var routineNameLbl: UILabel!
     @IBOutlet weak var timeLbl: UILabel!
     @IBOutlet weak var countLbl: UILabel!
     
@@ -33,11 +32,11 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     private var mins = "00"
     private var secs = "00"
     
-    public var update : Int!
-    
     private let gf = GlobalFunctions()
     private let routineService = RoutineService.instance
     private let workoutService = WorkoutService.instance
+    
+    var update : Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,65 +51,7 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
 
     // Actions
     @IBAction func addBtnPressed(_ sender: Any) {
-        view.endEditing(true)
-        
-        if !countSwitch.isOn {
-            minsLbl.textColor = .label
-            secsLbl.textColor = .label
-            timeLbl.textColor = .label
-        }
-        
-        countLbl.textColor = .label
-        routineNameLbl.textColor = .label
-        
-        titleTxtbx.layer.borderColor = UIColor.placeholderText.cgColor
-        countTxtbx.layer.borderColor = UIColor.placeholderText.cgColor
-        
-        guard let title = titleTxtbx.text, titleTxtbx.text != "" else {
-            titleTxtbx.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-            routineNameLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-            return
-        }
-        
-        if countSwitch.isOn {
-            mins = "00"
-            secs = "00"
-            
-            let count = Int (countTxtbx.text ?? "0") ?? 0
-            if count < 1 || count > 9999 {
-                countTxtbx.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-                countLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-                return
-            }
-            
-            let routine = Routine(title: title, count: count)
-            
-            if update == nil {
-                routineService.addRoutine(routine: routine)
-            } else {
-                routineService.updateRoutine(index: update, routine: routine)
-            }
-
-            dismiss(animated: true, completion: nil)
-        } else {
-            if mins != "00" || secs != "00" {
-                let routine = Routine(title: title, time: "\(mins) : \(secs)")
-//                let item = Workout(title: title, description: "\(routine.time!)", setList: nil)
-                
-                if update == nil {
-                    routineService.addRoutine(routine: routine)
-//                    workoutService.addItem(item: item)
-                } else {
-                    routineService.updateRoutine(index: update, routine: routine)
-                }
-
-                dismiss(animated: true, completion: nil)
-            } else {
-                minsLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-                secsLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-                timeLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-            }
-        }
+        addRoutine()
     }
     
     @IBAction func countEditingDidChange(_ sender: Any) {
@@ -124,22 +65,21 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     @IBAction func countSwitchChanged(_ sender: Any) {
         switchChange(countSwitch.isOn)
+        
+        countLbl.textColor = .label
+        countTxtbx.layer.borderColor = UIColor.placeholderText.cgColor
     }
     
     // Customs
     func setupView() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(AddRoutineVC.dismissKeyboard(_:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
         view.addGestureRecognizer(tap)
         
         populateData()
         
-        if update == nil {
-            addBtn.setTitle("ADD", for: .normal)
-        } else {
-            addBtn.setTitle("UPDATE", for: .normal)
-
+        if update != nil {
             let routine = routineService.routines[update]
-
+            
             titleTxtbx.text = routine.title
             countSwitch.setOn(routine.count != nil, animated: true)
             
@@ -194,6 +134,66 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             minsLbl.textColor = .label
             secsLbl.textColor = .label
             timeLbl.textColor = .label
+        }
+    }
+    
+    func addRoutine() {
+        view.endEditing(true)
+                
+        if !countSwitch.isOn {
+            minsLbl.textColor = .label
+            secsLbl.textColor = .label
+            timeLbl.textColor = .label
+        }
+        
+        countLbl.textColor = .label
+        
+        titleTxtbx.layer.borderColor = UIColor.placeholderText.cgColor
+        countTxtbx.layer.borderColor = UIColor.placeholderText.cgColor
+        
+        guard let title = titleTxtbx.text, titleTxtbx.text != "" else {
+            titleTxtbx.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            return
+        }
+        
+        if countSwitch.isOn {
+            mins = "00"
+            secs = "00"
+            
+            let count = Int (countTxtbx.text ?? "0") ?? 0
+            if count < 1 || count > 9999 {
+                countTxtbx.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                countLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                return
+            }
+            
+            let routine = Routine(title: title, count: count)
+            
+            if update == nil {
+                routineService.addRoutine(routine: routine)
+            } else {
+                routineService.updateRoutine(index: update, routine: routine)
+            }
+
+            dismiss(animated: true, completion: nil)
+        } else {
+            if mins != "00" || secs != "00" {
+                let routine = Routine(title: title, time: "\(mins) : \(secs)")
+//                let item = Workout(title: title, description: "\(routine.time!)", setList: nil)
+                
+                if update == nil {
+                    routineService.addRoutine(routine: routine)
+//                    workoutService.addItem(item: item)
+                } else {
+                    routineService.updateRoutine(index: update, routine: routine)
+                }
+
+                dismiss(animated: true, completion: nil)
+            } else {
+                minsLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                secsLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                timeLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            }
         }
     }
 

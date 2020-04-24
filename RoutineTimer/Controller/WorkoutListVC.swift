@@ -65,9 +65,16 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         }
     }
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-            return .delete
-    }
+//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+//        if workoutTbl.isEditing {
+//            return .none
+//        }
+//            return .delete
+//    }
+//
+//    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+//        return false
+//    }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         workout.moveItem(fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
@@ -89,7 +96,7 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     @IBAction func deleteBtnPressed(_ sender: Any) {
         if workout.items.count > 0 {
-            let refreshAlert = UIAlertController(title: "Clear List", message: "", preferredStyle: .alert)
+            let refreshAlert = UIAlertController(title: "Clear Workout List", message: "Are you sure?", preferredStyle: .alert)
 
             refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
             }))
@@ -98,7 +105,7 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 self.workout.clearItems()
                 self.workoutTbl.reloadData()
             }))
-
+            
             present(refreshAlert, animated: true, completion: nil)
         }
     }

@@ -15,6 +15,10 @@
 		5F378365244F1391007983CA /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F514622244A2E5200FD2BE0 /* GlobalFunctions.swift */; };
 		5F514623244A2E5200FD2BE0 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F514622244A2E5200FD2BE0 /* GlobalFunctions.swift */; };
 		5F514625244A39EB00FD2BE0 /* ErrorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F514624244A39EB00FD2BE0 /* ErrorTextField.swift */; };
+		5F6492502451671A001F375C /* AddSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64924F2451671A001F375C /* AddSetVC.swift */; };
+		5F649252245186D7001F375C /* SetRoutinesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F649251245186D7001F375C /* SetRoutinesService.swift */; };
+		5F6492542451D264001F375C /* SetRoutineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6492532451D264001F375C /* SetRoutineCell.swift */; };
+		5F6492562452C635001F375C /* CustomSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6492552452C635001F375C /* CustomSegue.swift */; };
 		5F7F19622449607E0098EDBF /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7F19612449607E0098EDBF /* RoundedButton.swift */; };
 		5F7F1964244960E50098EDBF /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7F1963244960E50098EDBF /* RoundedView.swift */; };
 		5F951427244EDF3A002A6FA2 /* WorkoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F951426244EDF3A002A6FA2 /* WorkoutService.swift */; };
@@ -71,6 +75,10 @@
 		5F37835F244F12EF007983CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F514622244A2E5200FD2BE0 /* GlobalFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
 		5F514624244A39EB00FD2BE0 /* ErrorTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTextField.swift; sourceTree = "<group>"; };
+		5F64924F2451671A001F375C /* AddSetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSetVC.swift; sourceTree = "<group>"; };
+		5F649251245186D7001F375C /* SetRoutinesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRoutinesService.swift; sourceTree = "<group>"; };
+		5F6492532451D264001F375C /* SetRoutineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRoutineCell.swift; sourceTree = "<group>"; };
+		5F6492552452C635001F375C /* CustomSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegue.swift; sourceTree = "<group>"; };
 		5F7F19612449607E0098EDBF /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		5F7F1963244960E50098EDBF /* RoundedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
 		5F951426244EDF3A002A6FA2 /* WorkoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutService.swift; sourceTree = "<group>"; };
@@ -185,6 +193,7 @@
 				5F134003244EAC880029BA86 /* RoutineListVC.swift */,
 				5FFE9CE22447AA34006CE0CC /* AddRoutineVC.swift */,
 				5F134005244EAC960029BA86 /* SetListVC.swift */,
+				5F64924F2451671A001F375C /* AddSetVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -202,6 +211,8 @@
 				5FA70B5B244F4305003597B2 /* SetCell.swift */,
 				5FD6ADD62450A25300C5F2EC /* SetHeadCell.swift */,
 				5FD6ADD82450CB9B00C5F2EC /* SetHeaderCell.swift */,
+				5F6492532451D264001F375C /* SetRoutineCell.swift */,
+				5F6492552452C635001F375C /* CustomSegue.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -250,6 +261,7 @@
 				5FFE9CE824481FE1006CE0CC /* RoutineService.swift */,
 				5F951426244EDF3A002A6FA2 /* WorkoutService.swift */,
 				5FDC26AE245015EF008A2FDA /* SetService.swift */,
+				5F649251245186D7001F375C /* SetRoutinesService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -407,6 +419,7 @@
 				5FFE9CE32447AA34006CE0CC /* AddRoutineVC.swift in Sources */,
 				5F134009244EDDAC0029BA86 /* Workout.swift in Sources */,
 				5FA70B5A244F4293003597B2 /* RoutineCell.swift in Sources */,
+				5F6492502451671A001F375C /* AddSetVC.swift in Sources */,
 				5FFE9CD82447952A006CE0CC /* WorkoutListVC.swift in Sources */,
 				5FFE9CE924481FE1006CE0CC /* RoutineService.swift in Sources */,
 				5FFE9CF1244852E1006CE0CC /* CircleButton.swift in Sources */,
@@ -426,11 +439,14 @@
 				5FDC26AF245015EF008A2FDA /* SetService.swift in Sources */,
 				5FFE9CED244824CF006CE0CC /* WorkoutCell.swift in Sources */,
 				5F13400B244EDDC90029BA86 /* SetRoutines.swift in Sources */,
+				5F6492542451D264001F375C /* SetRoutineCell.swift in Sources */,
 				5FD6ADD72450A25300C5F2EC /* SetHeadCell.swift in Sources */,
 				5FFE9CBA24479045006CE0CC /* SceneDelegate.swift in Sources */,
+				5F649252245186D7001F375C /* SetRoutinesService.swift in Sources */,
 				5F7F19622449607E0098EDBF /* RoundedButton.swift in Sources */,
 				5FFE9CD4244792A3006CE0CC /* SWRevealViewController.m in Sources */,
 				5FFE9CE624481C2F006CE0CC /* Constants.swift in Sources */,
+				5F6492562452C635001F375C /* CustomSegue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
