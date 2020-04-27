@@ -85,7 +85,9 @@ class SetListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     @IBAction func unwindToSetList( _ seg: UIStoryboardSegue) {
-        setsTbl.reloadData()
+        if setService.sets.count != setsTbl.numberOfSections {
+            setsTbl.reloadData()
+        }
     }
     
     // Delegates

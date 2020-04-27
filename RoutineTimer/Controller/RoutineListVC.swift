@@ -128,7 +128,9 @@ class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     @IBAction func unwindToRoutinesList( _ seg: UIStoryboardSegue) {
-        routinesTbl.reloadData()
+        if routinesTbl.numberOfRows(inSection: 0) != routineService.routines.count {
+            routinesTbl.reloadData()
+        }
     }
     
     // @objc

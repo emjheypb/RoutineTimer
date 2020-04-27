@@ -102,6 +102,15 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
             return
         }
         
+        let routines = setRoutinesService.items
+        let set = SetRoutines(title: setName, routines: routines, isCollapsed: false)
+        
+        if update == nil {
+            setService.addSet(set: set)
+        } else {
+            setService.updateSets(index: update, set: set)
+        }
+        
         performSegue(withIdentifier: UNWIND_TO_SETS_LIST, sender: self)
     }
     
@@ -129,8 +138,13 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
     }
     
     @IBAction func unwindToAddSet( _ seg: UIStoryboardSegue) {
-        routinesTbl.reloadData()
-        self.tblPlaceholderLbl.isHidden = true
+        let rowCount = routinesTbl.numberOfRows(inSection: 0)
+        
+        if setRoutinesService.items.count != rowCount {
+            routinesTbl.reloadData()
+        }
+        
+        tblPlaceholderLbl.isHidden = (rowCount != 0)
     }
     
     // Selectors
@@ -161,8 +175,6 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
             }
             
             tblPlaceholderLbl.isHidden = true
-        } else {
-            tblPlaceholderLbl.isHidden = false
         }
         
         routinesTbl.isEditing = true
