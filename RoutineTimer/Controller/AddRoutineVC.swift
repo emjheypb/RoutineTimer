@@ -70,10 +70,17 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         countTxtbx.layer.borderColor = UIColor.placeholderText.cgColor
     }
     
+    @IBAction func backBtnPressed(_ sender: Any) {
+        goBack()
+    }
+    
     // Customs
     func setupView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
         view.addGestureRecognizer(tap)
+        
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(backSwiped(_:)))
+        view.addGestureRecognizer(swipe)
         
         populateData()
         
@@ -174,8 +181,6 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             } else {
                 routineService.updateRoutine(index: update, routine: routine)
             }
-
-            dismiss(animated: true, completion: nil)
         } else {
             if mins != "00" || secs != "00" {
                 let routine = Routine(title: title, time: "\(mins) : \(secs)")
@@ -187,23 +192,57 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 } else {
                     routineService.updateRoutine(index: update, routine: routine)
                 }
-
-                dismiss(animated: true, completion: nil)
             } else {
                 minsLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
                 secsLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
                 timeLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                return
             }
         }
+        
+        performSegue(withIdentifier: UNWIND_TO_ROUTINE_LIST, sender: self)
+    }
+    
+    func goBack() {
+        view.endEditing(true)
+        var alertTitle = ""
+        
+        if update == nil {
+            if titleTxtbx.text != "" || (countSwitch.isOn && countTxtbx.text != "") || (!countSwitch.isOn && "\(mins) : \(secs)" != "00 : 00") {
+                alertTitle = "Discard New Routine"
+            }
+        } else {
+            let routine = routineService.routines[update]
+            
+            if routine.title != titleTxtbx.text || (countSwitch.isOn && routine.count != gf.strToInt(str: countTxtbx.text ?? "0")) || (!countSwitch.isOn && routine.time != "\(mins) : \(secs)") {
+                alertTitle = "Discard Routine Changes"
+            }
+        }
+        
+        if alertTitle != "" {
+            let refreshAlert = UIAlertController(title: alertTitle, message: "Are you sure?", preferredStyle: .alert)
+
+            refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                return
+            }))
+
+            refreshAlert.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { (action: UIAlertAction!) in
+                self.navigationController?.popViewController(animated: true)
+            }))
+            
+            present(refreshAlert, animated: true, completion: nil)
+        }
+        
+        navigationController?.popViewController(animated: true)
     }
 
     // Selectors
-    @objc func closeTouch(_ recognizer: UITapGestureRecognizer) {
-        dismiss(animated: true, completion: nil)
-    }
-    
     @objc func dismissKeyboard(_ recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
+    }
+        
+    @objc func backSwiped(_ recognizer: UISwipeGestureRecognizer) {
+        goBack()
     }
     
     // Delegates
@@ -229,8 +268,8 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        return false
+        textField.resignFirstResponder()
+        return true
     }
 
 }

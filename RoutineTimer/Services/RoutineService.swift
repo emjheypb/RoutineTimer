@@ -16,15 +16,12 @@ class RoutineService {
     func addRoutine(routine: Routine) {
         routines.append(routine)
         routines.sort(by: {$0.title < $1.title})
-        NotificationCenter.default.post(name: NOTIF_ROUTINE, object: nil)
     }
     
     func moveRoutine(fromIndex: Int, toIndex: Int) {
         let routine = routines[fromIndex]
         routines.remove(at: fromIndex)
         routines.insert(routine, at: toIndex)
-        
-        NotificationCenter.default.post(name: NOTIF_ROUTINE, object: nil)
     }
     
     func deleteRoutine(index: Int) {
@@ -34,7 +31,5 @@ class RoutineService {
     func updateRoutine(index: Int, routine: Routine) {
         routines.remove(at: index)
         routines.insert(routine, at: index)
-        
-        NotificationCenter.default.post(name: NOTIF_ROUTINE, object: nil)
     }
 }

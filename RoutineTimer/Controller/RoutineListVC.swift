@@ -13,14 +13,11 @@ class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     @IBOutlet weak var routinesTbl: UITableView!
     
     @IBOutlet weak var addBtn: UIButton!
-    @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var editBtn: UIButton!
     
     @IBOutlet weak var headerLbl: UILabel!
-    @IBOutlet weak var fillerLbl: UILabel!
     
     @IBOutlet weak var headerGradientView: GradientView!
-    @IBOutlet weak var pullDownView: UIView!
     
     private let routineService = RoutineService.instance
     private let workoutService = WorkoutService.instance
@@ -28,43 +25,20 @@ class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     private var editTbl = false
     
-    var forSetList = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         routinesTbl.delegate = self
         routinesTbl.dataSource = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(addRoutine(_:)), name: NOTIF_ROUTINE, object: nil)
-        
-        if forSetList {
-            setupView()
-        } else {
-            let swipe = UISwipeGestureRecognizer(target: self, action: #selector(backSwiped(_:)))
-            view.addGestureRecognizer(swipe)
-        }
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(backSwiped(_:)))
+        view.addGestureRecognizer(swipe)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! AddRoutineVC
-        destinationVC.update = routinesTbl.indexPathForSelectedRow?.row
-    }
-    
-    // Customs
-    func setupView() {
-        addBtn.isHidden = true
-        backBtn.isHidden = true
-        
-        pullDownView.isHidden = false
-        fillerLbl.isHidden = false
-//        routinesTbl.allowsSelection = false
-
-        headerLbl.text = "ADD TO NEW SET"
-        
-        NSLayoutConstraint.activate([
-            headerGradientView.heightAnchor.constraint(equalToConstant: 70)
-        ])
+        if let destinationVC = segue.destination as? AddRoutineVC {
+            destinationVC.update = routinesTbl.indexPathForSelectedRow?.row
+        }
     }
     
     func addItem(row: Int) {
@@ -78,20 +52,15 @@ class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         let routine = routineService.routines[row]
         
-        if !forSetList {
-            if routine.count == nil {
-                workoutService.addItem(item: Workout(title: routine.title, description: routine.time))
-            } else {
-                workoutService.addItem(item: Workout(title: routine.title, description: "\(routine.count!)"))
-            }
+        routinesTbl.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+        
+        if routine.count == nil {
+            workoutService.addItem(item: Workout(title: routine.title, description: routine.time))
         } else {
-            setRoutinesService.addItem(item: routine)
+            workoutService.addItem(item: Workout(title: routine.title, description: "\(routine.count!)"))
         }
         
-        routinesTbl.allowsSelection = true
-        routinesTbl.selectRow(at: indexPath, animated: true, scrollPosition: .none)
         routinesTbl.deselectRow(at: indexPath, animated: true)
-        routinesTbl.allowsSelection = false
     }
     
     // Delegates
@@ -126,26 +95,22 @@ class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if !forSetList {
-            let cell = routinesTbl.cellForRow(at: indexPath)
-            cell!.selectedBackgroundView = nil
-            
-            performSegue(withIdentifier: TO_ADD_ROUTINE, sender: nil)
-            tableView.deselectRow(at: indexPath, animated: true)
-        } else {
-            addItem(row: indexPath.row)
-        }
+        let cell = routinesTbl.cellForRow(at: indexPath)
+        cell!.selectedBackgroundView = nil
+        
+        performSegue(withIdentifier: TO_ADD_ROUTINE, sender: nil)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return false
     }
     
-    // @IBActions
-    @IBAction func backBtnPressed(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
     }
     
+    // @IBActions
     @IBAction func addBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: TO_ADD_ROUTINE, sender: nil)
     }
@@ -162,17 +127,17 @@ class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         }
     }
     
-    // @objc
-    @objc func addRoutine(_ notif: Notification) {
+    @IBAction func unwindToRoutinesList( _ seg: UIStoryboardSegue) {
         routinesTbl.reloadData()
     }
     
+    // @objc
     @objc func addBtnTapped(_ sender: UIButton){
         addItem(row: sender.tag)
     }
     
     @objc func backSwiped(_ recognizer: UISwipeGestureRecognizer) {
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
     
 }

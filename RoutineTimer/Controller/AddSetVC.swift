@@ -8,9 +8,10 @@
 
 import UIKit
 
-class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     @IBOutlet weak var routinesTbl: UITableView!
+    @IBOutlet weak var gradientView: GradientView!
     
     @IBOutlet weak var headerTxtbx: ErrorTextField!
     
@@ -27,20 +28,9 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         routinesTbl.delegate = self
         routinesTbl.dataSource = self
         
-        routinesTbl.isEditing = true
+        headerTxtbx.delegate = self
         
         setupView()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let tabBarC = segue.destination as! UITabBarController
-        let routinesVC = tabBarC.viewControllers![0] as! RoutineListVC
-        let setsVC = tabBarC.viewControllers![1] as! SetListVC
-        
-        routinesVC.forSetList = true
-        setsVC.forSetList = true
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(addItem(_:)), name: NOTIF_SET_ROUTINES, object: nil)
     }
     
     // Delegates
@@ -49,31 +39,56 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = routinesTbl.dequeueReusableCell(withIdentifier: "SetRoutineCell") as? SetRoutineCell {
+            let routine = setRoutinesService.items[indexPath.row]
+
+            cell.titleLbl.text = routine.title
+
+            if routine.count == nil {
+                cell.descriptionLbl.text = routine.time
+            } else {
+                cell.descriptionLbl.text = "\(routine.count!)"
+            }
+            
+            return cell
+        }
+        
         return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        view.endEditing(true)
         setRoutinesService.moveItem(fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
     }
     
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             setRoutinesService.deleteItem(index: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-//            NotificationCenter.default.post(name: NOTIF_SET_ROUTINES, object: nil)
         }
     }
     
-//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-//        return .delete
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
     // @IBActions
     @IBAction func addBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: TO_ROUTINE_SETS, sender: self)
+        view.endEditing(true)
     }
     
     @IBAction func saveBtnPressed(_ sender: Any) {
+        view.endEditing(true)
+        
         headerTxtbx.layer.borderColor = UIColor.placeholderText.cgColor
         tblPlaceholderLbl.textColor = .placeholderText
         
@@ -84,10 +99,15 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         if setRoutinesService.items.count == 0 {
             tblPlaceholderLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            return
         }
+        
+        performSegue(withIdentifier: UNWIND_TO_SETS_LIST, sender: self)
     }
     
     @IBAction func clearAllBtnPressed(_ sender: Any) {
+        view.endEditing(true)
+        
         if setRoutinesService.items.count > 0 {
             let refreshAlert = UIAlertController(title: "Clear Set", message: "Are you sure?", preferredStyle: .alert)
 
@@ -97,28 +117,39 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             refreshAlert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (action: UIAlertAction!) in
                 self.setRoutinesService.clearItems()
                 self.routinesTbl.reloadData()
+                self.tblPlaceholderLbl.isHidden = false
             }))
 
             present(refreshAlert, animated: true, completion: nil)
         }
     }
     
-    // Selectors
-    @objc func addItem(_ : NotificationCenter) {
-        routinesTbl.reloadData()
-        
-        tblPlaceholderLbl.textColor = .placeholderText
-        tblPlaceholderLbl.isHidden = setRoutinesService.items.count != 0
+    @IBAction func backBtnPressed(_ sender: Any) {
+        goBack()
     }
     
+    @IBAction func unwindToAddSet( _ seg: UIStoryboardSegue) {
+        routinesTbl.reloadData()
+        self.tblPlaceholderLbl.isHidden = true
+    }
+    
+    // Selectors
     @objc func dismissKeyboard(_ recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
+    }
+    
+    @objc func backSwiped(_ recognizer: UISwipeGestureRecognizer) {
+        goBack()
     }
     
     // Custom
     func setupView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
-        view.addGestureRecognizer(tap)
+        tblPlaceholderLbl.addGestureRecognizer(tap)
+        gradientView.addGestureRecognizer(tap)
+        
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(backSwiped(_:)))
+        view.addGestureRecognizer(swipe)
         
         setRoutinesService.clearItems()
         
@@ -134,6 +165,55 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             tblPlaceholderLbl.isHidden = false
         }
         
+        routinesTbl.isEditing = true
+    }
+    
+    func goBack() {
+        view.endEditing(true)
+        
+        var alertTitle = ""
+        
+        if update == nil {
+            if headerTxtbx.text != "" || routinesTbl.numberOfRows(inSection: 0) > 0 {
+                alertTitle = "Discard New Set"
+            }
+        } else {
+            let set = setService.sets[update]
+            
+            if set.title != headerTxtbx.text {
+                alertTitle = "Discard Set Changes"
+            } else {
+                if set.routines.count != routinesTbl.numberOfRows(inSection: 0) {
+                    alertTitle = "Discard Set Changes"
+                } else {
+                    for num in 0 ... set.routines.count - 1 {
+                        let cell = routinesTbl.cellForRow(at: IndexPath(row: num, section: 0)) as? SetRoutineCell
+                        let routine = set.routines[num]
+                        
+                        if routine.title != cell?.titleLbl.text {
+                            alertTitle = "Discard Set Changes"
+                            break
+                        }
+                    }
+                }
+            }
+        }
+        
+        if alertTitle != "" {
+            let refreshAlert = UIAlertController(title: alertTitle, message: "Are you sure?", preferredStyle: .alert)
+
+            refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                return
+            }))
+
+            refreshAlert.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { (action: UIAlertAction!) in
+                self.navigationController?.popViewController(animated: true)
+            }))
+            
+            present(refreshAlert, animated: true, completion: nil)
+        }
+        
+        navigationController?.popViewController(animated: true)
     }
     
 }

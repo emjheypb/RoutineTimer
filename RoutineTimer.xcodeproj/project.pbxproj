@@ -18,7 +18,6 @@
 		5F6492502451671A001F375C /* AddSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F64924F2451671A001F375C /* AddSetVC.swift */; };
 		5F649252245186D7001F375C /* SetRoutinesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F649251245186D7001F375C /* SetRoutinesService.swift */; };
 		5F6492542451D264001F375C /* SetRoutineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6492532451D264001F375C /* SetRoutineCell.swift */; };
-		5F6492562452C635001F375C /* CustomSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6492552452C635001F375C /* CustomSegue.swift */; };
 		5F7F19622449607E0098EDBF /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7F19612449607E0098EDBF /* RoundedButton.swift */; };
 		5F7F1964244960E50098EDBF /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7F1963244960E50098EDBF /* RoundedView.swift */; };
 		5F951427244EDF3A002A6FA2 /* WorkoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F951426244EDF3A002A6FA2 /* WorkoutService.swift */; };
@@ -78,7 +77,6 @@
 		5F64924F2451671A001F375C /* AddSetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSetVC.swift; sourceTree = "<group>"; };
 		5F649251245186D7001F375C /* SetRoutinesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRoutinesService.swift; sourceTree = "<group>"; };
 		5F6492532451D264001F375C /* SetRoutineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRoutineCell.swift; sourceTree = "<group>"; };
-		5F6492552452C635001F375C /* CustomSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegue.swift; sourceTree = "<group>"; };
 		5F7F19612449607E0098EDBF /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		5F7F1963244960E50098EDBF /* RoundedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
 		5F951426244EDF3A002A6FA2 /* WorkoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutService.swift; sourceTree = "<group>"; };
@@ -202,17 +200,16 @@
 			isa = PBXGroup;
 			children = (
 				5FFE9CDA24479A62006CE0CC /* GradientView.swift */,
-				5FFE9CEC244824CF006CE0CC /* WorkoutCell.swift */,
 				5FFE9CF0244852E1006CE0CC /* CircleButton.swift */,
 				5F7F19612449607E0098EDBF /* RoundedButton.swift */,
 				5F7F1963244960E50098EDBF /* RoundedView.swift */,
 				5F514624244A39EB00FD2BE0 /* ErrorTextField.swift */,
+				5FFE9CEC244824CF006CE0CC /* WorkoutCell.swift */,
 				5FA70B59244F4293003597B2 /* RoutineCell.swift */,
+				5FD6ADD82450CB9B00C5F2EC /* SetHeaderCell.swift */,
 				5FA70B5B244F4305003597B2 /* SetCell.swift */,
 				5FD6ADD62450A25300C5F2EC /* SetHeadCell.swift */,
-				5FD6ADD82450CB9B00C5F2EC /* SetHeaderCell.swift */,
 				5F6492532451D264001F375C /* SetRoutineCell.swift */,
-				5F6492552452C635001F375C /* CustomSegue.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -446,7 +443,6 @@
 				5F7F19622449607E0098EDBF /* RoundedButton.swift in Sources */,
 				5FFE9CD4244792A3006CE0CC /* SWRevealViewController.m in Sources */,
 				5FFE9CE624481C2F006CE0CC /* Constants.swift in Sources */,
-				5F6492562452C635001F375C /* CustomSegue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

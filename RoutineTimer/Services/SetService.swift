@@ -15,21 +15,17 @@ class SetService {
     
     func clearSets() {
         sets.removeAll()
-        NotificationCenter.default.post(name: NOTIF_SETS, object: nil)
     }
     
     func addSet(set: SetRoutines) {
         sets.append(set)
         sets.sort(by: {$0.title < $1.title})
-        NotificationCenter.default.post(name: NOTIF_SETS, object: nil)
     }
     
     func moveSet(fromIndex: Int, toIndex: Int) {
         let set = sets[fromIndex]
         sets.remove(at: fromIndex)
         sets.insert(set, at: toIndex)
-        
-        NotificationCenter.default.post(name: NOTIF_SETS, object: nil)
     }
     
     func deleteSet(index: Int) {
@@ -39,7 +35,5 @@ class SetService {
     func updateSets(index: Int, set: SetRoutines) {
         sets.remove(at: index)
         sets.insert(set, at: index)
-        
-        NotificationCenter.default.post(name: NOTIF_SETS, object: nil)
     }
 }

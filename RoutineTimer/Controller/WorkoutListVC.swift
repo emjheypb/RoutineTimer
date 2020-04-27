@@ -28,8 +28,6 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         workoutTbl.dataSource = self
         
         workoutTbl.isEditing = editTbl
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(addItem(_:)), name: NOTIF_WORKOUT, object: nil)
     }
     
     // Delegates
@@ -81,10 +79,6 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     // Selectors
-    @objc func addItem(_ notif: Notification) {
-        workoutTbl.reloadData()
-    }
-    
     @objc func duplicateTapped(_ sender: UIButton){
         workout.addItem(item: workout.items[sender.tag])
     }
@@ -125,4 +119,9 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     @IBAction func saveAsSetBtnPressed(_ sender: Any) {
     }
     
+    @IBAction func unwindToWorkoutList( _ seg: UIStoryboardSegue) {
+        if workout.items.count != workoutTbl.numberOfRows(inSection: 0) {
+            workoutTbl.reloadData()
+        }
+    }
 }

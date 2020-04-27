@@ -10,6 +10,9 @@ import UIKit
 
 class SetRoutineCell: UITableViewCell {
 
+    @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var descriptionLbl: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
