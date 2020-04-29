@@ -154,6 +154,12 @@
                                     <constraint firstItem="mwg-2T-mcx" firstAttribute="height" secondItem="93N-wE-CEX" secondAttribute="height" id="c91-lW-HbB"/>
                                 </constraints>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADD ROUTINE/SET" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6cV-wc-ZtV">
+                                <rect key="frame" x="0.0" y="80" width="303" height="23.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" systemColor="placeholderTextColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -161,9 +167,12 @@
                             <constraint firstItem="fDD-st-G5V" firstAttribute="leading" secondItem="yb9-rQ-jYP" secondAttribute="leading" constant="10" id="59w-Gr-4Pj"/>
                             <constraint firstItem="YRm-gN-rem" firstAttribute="leading" secondItem="yb9-rQ-jYP" secondAttribute="leading" id="63X-o3-xf9"/>
                             <constraint firstItem="YRm-gN-rem" firstAttribute="bottom" secondItem="yb9-rQ-jYP" secondAttribute="bottom" id="McS-FE-iKc"/>
+                            <constraint firstItem="6cV-wc-ZtV" firstAttribute="leading" secondItem="yb9-rQ-jYP" secondAttribute="leading" id="UVL-hn-zq2"/>
                             <constraint firstItem="Bf4-Me-aUd" firstAttribute="top" secondItem="yb9-rQ-jYP" secondAttribute="top" id="Unh-od-fX5"/>
                             <constraint firstItem="yb9-rQ-jYP" firstAttribute="trailing" secondItem="Bf4-Me-aUd" secondAttribute="trailing" constant="72" id="arH-Jv-ILY"/>
+                            <constraint firstItem="yb9-rQ-jYP" firstAttribute="trailing" secondItem="6cV-wc-ZtV" secondAttribute="trailing" constant="72" id="fzt-Ww-9oF"/>
                             <constraint firstItem="yb9-rQ-jYP" firstAttribute="trailing" secondItem="YRm-gN-rem" secondAttribute="trailing" constant="72" id="kBL-OW-fID"/>
+                            <constraint firstItem="6cV-wc-ZtV" firstAttribute="top" secondItem="Bf4-Me-aUd" secondAttribute="bottom" id="lIb-xv-hxE"/>
                             <constraint firstItem="fDD-st-G5V" firstAttribute="centerY" secondItem="Bf4-Me-aUd" secondAttribute="centerY" id="nrV-Fe-D6b"/>
                             <constraint firstItem="Bf4-Me-aUd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fDD-st-G5V" secondAttribute="trailing" constant="8" symbolic="YES" id="plN-tT-M5m"/>
                         </constraints>
@@ -172,13 +181,14 @@
                     <connections>
                         <outlet property="deleteBtn" destination="GB2-Sf-EJ6" id="bTL-rO-xhh"/>
                         <outlet property="editBtn" destination="mwg-2T-mcx" id="gDp-ig-L0G"/>
+                        <outlet property="placeholderLbl" destination="6cV-wc-ZtV" id="Pm6-DX-gSu"/>
                         <outlet property="workoutTbl" destination="YRm-gN-rem" id="Fcv-CF-MrJ"/>
                         <segue destination="yVQ-bq-OYz" kind="show" identifier="toRoutineSets" id="9Pf-rj-Cep"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CXc-ka-ba2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1321" y="54"/>
+            <point key="canvasLocation" x="1320.8" y="53.523238380809602"/>
         </scene>
         <!--HomeVC-->
         <scene sceneID="jks-zI-l9c">
@@ -1150,7 +1160,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="bjP-Rg-3JU"/>
+        <segue reference="9Pf-rj-Cep"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.counterclockwise" catalog="system" width="115" height="128"/>

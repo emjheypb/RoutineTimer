@@ -189,7 +189,7 @@ class SetListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             let sections = IndexSet.init(integer: indexPath.section)
             setService.deleteSet(index: indexPath.section)
-            tableView.deleteSections(sections, with: .none)
+            tableView.deleteSections(sections, with: .fade)
             
             tableView.reloadData()
         }

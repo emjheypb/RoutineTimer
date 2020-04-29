@@ -15,6 +15,8 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var deleteBtn: UIButton!
     
+    @IBOutlet weak var placeholderLbl: UILabel!
+    
     private var editTbl = false
     
     private let workout = WorkoutService.instance
@@ -31,12 +33,8 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         workoutTbl.dataSource = self
         
         workoutTbl.isEditing = editTbl
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        if workoutTbl.numberOfRows(inSection: 0) != workout.items.count {
-            workoutTbl.reloadData()
-        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTable(_:)), name: NOTIF_WORKOUT, object: nil)
     }
     
     // Delegates
@@ -77,8 +75,14 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     // Selectors
-    @objc func duplicateTapped(_ sender: UIButton){
+    @objc func duplicateTapped(_ sender: UIButton) {
         workout.addItem(item: workout.items[sender.tag])
+    }
+    
+    @objc func reloadTable(_ sender: NotificationCenter) {
+        workoutTbl.reloadData()
+        placeholderLbl.isHidden = !(workoutTbl.numberOfRows(inSection: 0) == 0)
+        placeholderLbl.textColor = .placeholderText
     }
     
     // Actions
@@ -115,48 +119,52 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     @IBAction func saveAsSetBtnPressed(_ sender: Any) {
-        let alert = UIAlertController(title: "Save as Set", message: "Enter Set Name", preferredStyle: .alert)
-        
-        let saveAction = UIAlertAction(title: "Save", style: .default) { (action: UIAlertAction!) in
-            var workoutRoutines = [Routine]()
+        if workoutTbl.numberOfRows(inSection: 0) > 0 {
+            let alert = UIAlertController(title: "Save as Set", message: "Enter Set Name", preferredStyle: .alert)
             
-            for item in self.workout.items {
-                let title = item.title
-                let setRoutines = item.setList
-                let description = item.description!
+            let saveAction = UIAlertAction(title: "Save", style: .default) { (action: UIAlertAction!) in
+                var workoutRoutines = [Routine]()
+                
+                for item in self.workout.items {
+                    let title = item.title
+                    let setRoutines = item.setList
+                    let description = item.description!
 
-                if item.setList == nil {
-                    if description.contains(":") {
-                        workoutRoutines.append(Routine(title: title, time: description))
+                    if item.setList == nil {
+                        if description.contains(":") {
+                            workoutRoutines.append(Routine(title: title, time: description))
+                        } else {
+                            workoutRoutines.append(Routine(title: title, count: self.gf.strToInt(str: description)))
+                        }
                     } else {
-                        workoutRoutines.append(Routine(title: title, count: self.gf.strToInt(str: description)))
-                    }
-                } else {
-                    for routine in setRoutines! {
-                        workoutRoutines.append(routine)
+                        for routine in setRoutines! {
+                            workoutRoutines.append(routine)
+                        }
                     }
                 }
+                
+                self.setService.addSet(set: SetRoutines(title: alert.textFields?[0].text, routines: workoutRoutines, isCollapsed: false))
+            }
+            saveAction.isEnabled = false
+
+            alert.addTextField { (textField) in
+                textField.placeholder = "Set Name"
             }
             
-            self.setService.addSet(set: SetRoutines(title: alert.textFields?[0].text, routines: workoutRoutines, isCollapsed: false))
+            NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object:alert.textFields?[0], queue: OperationQueue.main) { (notification) -> Void in
+
+                saveAction.isEnabled = (alert.textFields?[0].text != "")
+            }
+
+            alert.addAction(saveAction)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                return
+            }))
+
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            placeholderLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
         }
-        saveAction.isEnabled = false
-
-        alert.addTextField { (textField) in
-            textField.placeholder = "Set Name"
-        }
-        
-        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object:alert.textFields?[0], queue: OperationQueue.main) { (notification) -> Void in
-
-            saveAction.isEnabled = (alert.textFields?[0].text != "")
-        }
-
-        alert.addAction(saveAction)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-            return
-        }))
-
-        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func unwindToWorkoutList( _ seg: UIStoryboardSegue) {
