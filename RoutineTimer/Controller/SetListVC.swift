@@ -25,6 +25,9 @@ class SetListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     private var editTbl = false
     
+    var forWorkoutList = true
+    var passBack : Int!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,19 +38,33 @@ class SetListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(backSwiped(_:)))
        view.addGestureRecognizer(swipe)
+       
+       addBtn.isHidden = !forWorkoutList
+       
+       if !forWorkoutList {
+           headerLbl.text = "ADD TO SET LIST"
+       }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        let sections = IndexSet.init(integersIn: 0 ... setService.sets.count - 1)
+        setsTbl.reloadSections(sections, with: .none)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationVC = segue.destination as? AddSetVC {
-            destinationVC.update = setsTbl.indexPathForSelectedRow?.section
+        if forWorkoutList {
+            if let destinationVC = segue.destination as? AddSetVC {
+                destinationVC.update = setsTbl.indexPathForSelectedRow?.section
+            }
         }
     }
     
+    // Customs
     func collapseExpand(section: Int) {
         setService.sets[section].isCollapsed = !setService.sets[section].isCollapsed
         
         let sections = IndexSet.init(integer: section)
-        setsTbl.reloadSections(sections, with: .fade)
+        setsTbl.reloadSections(sections, with: .none)
     }
     
     func addItem(section: Int) {
@@ -62,9 +79,25 @@ class SetListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         setsTbl.selectRow(at: indexPath, animated: true, scrollPosition: .none)
         
-        workoutService.addItem(item: Workout(title: setData.title, description: "SET", setList: setData.routines))
+        if forWorkoutList {
+            workoutService.addItem(item: Workout(title: setData.title, description: "SET", setList: setData.routines))
+        } else {
+            for routine in setData.routines {
+                setRoutinesService.addItem(item: routine)
+            }
+        }
         
         setsTbl.deselectRow(at: indexPath, animated: true)
+        
+        perform(#selector(turn(indexPath:)), with: indexPath, afterDelay: 0.4)
+    }
+    
+    func goBack() {
+        if forWorkoutList {
+            performSegue(withIdentifier: UNWIND_TO_WORKOUT_LIST, sender: self)
+        } else {
+            performSegue(withIdentifier: UNWIND_TO_ADD_SET, sender: self)
+        }
     }
     
     // @IBActions
@@ -85,9 +118,11 @@ class SetListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     @IBAction func unwindToSetList( _ seg: UIStoryboardSegue) {
-        if setService.sets.count != setsTbl.numberOfSections {
-            setsTbl.reloadData()
-        }
+        setsTbl.reloadData()
+    }
+    
+    @IBAction func backBtnPressed(_ sender: Any) {
+        goBack()
     }
     
     // Delegates
@@ -139,11 +174,12 @@ class SetListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = setsTbl.cellForRow(at: indexPath)
-        cell!.selectedBackgroundView = nil
-        
-        performSegue(withIdentifier: TO_ADD_SET_ROUTINE, sender: nil)
-        setsTbl.deselectRow(at: indexPath, animated: true)
+        if forWorkoutList {
+            performSegue(withIdentifier: TO_ADD_SET_ROUTINE, sender: nil)
+            setsTbl.deselectRow(at: indexPath, animated: true)
+        } else {
+            collapseExpand(section: indexPath.section)
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -181,7 +217,12 @@ class SetListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
         
     @objc func backSwiped(_ recognizer: UISwipeGestureRecognizer) {
-        navigationController?.popViewController(animated: true)
+        goBack()
+    }
+    
+    @objc func turn(indexPath: IndexPath) {
+        let cell = setsTbl.cellForRow(at: indexPath)
+        cell!.selectedBackgroundView = nil
     }
     
 }

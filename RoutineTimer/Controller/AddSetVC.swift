@@ -19,6 +19,7 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
     
     private let setRoutinesService = SetRoutinesService.instance
     private let setService = SetService.instance
+    private let gf = GlobalFunctions()
     
     var update : Int!
     
@@ -31,6 +32,18 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
         headerTxtbx.delegate = self
         
         setupView()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationVC = segue.destination as? UITabBarController {
+            let routinesVC = destinationVC.viewControllers![0] as! RoutineListVC
+            let setsVC = destinationVC.viewControllers![1] as! SetListVC
+            
+            routinesVC.forWorkoutList = false
+            
+            setsVC.forWorkoutList = false
+            setsVC.passBack = update
+        }
     }
     
     // Delegates
@@ -84,6 +97,7 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
     // @IBActions
     @IBAction func addBtnPressed(_ sender: Any) {
         view.endEditing(true)
+        performSegue(withIdentifier: TO_ROUTINE_SETS, sender: self)
     }
     
     @IBAction func saveBtnPressed(_ sender: Any) {
@@ -103,12 +117,11 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
         }
         
         let routines = setRoutinesService.items
-        let set = SetRoutines(title: setName, routines: routines, isCollapsed: false)
         
         if update == nil {
-            setService.addSet(set: set)
+            setService.addSet(set: SetRoutines(title: setName, routines: routines, isCollapsed: false))
         } else {
-            setService.updateSets(index: update, set: set)
+            setService.updateSets(index: update, set: SetRoutines(title: setName, routines: routines, isCollapsed: setService.sets[update].isCollapsed))
         }
         
         performSegue(withIdentifier: UNWIND_TO_SETS_LIST, sender: self)
@@ -138,13 +151,7 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
     }
     
     @IBAction func unwindToAddSet( _ seg: UIStoryboardSegue) {
-        let rowCount = routinesTbl.numberOfRows(inSection: 0)
-        
-        if setRoutinesService.items.count != rowCount {
-            routinesTbl.reloadData()
-        }
-        
-        tblPlaceholderLbl.isHidden = (rowCount != 0)
+        routinesTbl.reloadData()
     }
     
     // Selectors

@@ -18,6 +18,9 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     private var editTbl = false
     
     private let workout = WorkoutService.instance
+    private let setService = SetService.instance
+    
+    private let gf = GlobalFunctions()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +31,12 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         workoutTbl.dataSource = self
         
         workoutTbl.isEditing = editTbl
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if workoutTbl.numberOfRows(inSection: 0) != workout.items.count {
+            workoutTbl.reloadData()
+        }
     }
     
     // Delegates
@@ -62,17 +71,6 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             NotificationCenter.default.post(name: NOTIF_WORKOUT, object: nil)
         }
     }
-    
-//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-//        if workoutTbl.isEditing {
-//            return .none
-//        }
-//            return .delete
-//    }
-//
-//    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-//        return false
-//    }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         workout.moveItem(fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
@@ -117,12 +115,51 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     @IBAction func saveAsSetBtnPressed(_ sender: Any) {
+        let alert = UIAlertController(title: "Save as Set", message: "Enter Set Name", preferredStyle: .alert)
         
+        let saveAction = UIAlertAction(title: "Save", style: .default) { (action: UIAlertAction!) in
+            var workoutRoutines = [Routine]()
+            
+            for item in self.workout.items {
+                let title = item.title
+                let setRoutines = item.setList
+                let description = item.description!
+
+                if item.setList == nil {
+                    if description.contains(":") {
+                        workoutRoutines.append(Routine(title: title, time: description))
+                    } else {
+                        workoutRoutines.append(Routine(title: title, count: self.gf.strToInt(str: description)))
+                    }
+                } else {
+                    for routine in setRoutines! {
+                        workoutRoutines.append(routine)
+                    }
+                }
+            }
+            
+            self.setService.addSet(set: SetRoutines(title: alert.textFields?[0].text, routines: workoutRoutines, isCollapsed: false))
+        }
+        saveAction.isEnabled = false
+
+        alert.addTextField { (textField) in
+            textField.placeholder = "Set Name"
+        }
+        
+        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object:alert.textFields?[0], queue: OperationQueue.main) { (notification) -> Void in
+
+            saveAction.isEnabled = (alert.textFields?[0].text != "")
+        }
+
+        alert.addAction(saveAction)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            return
+        }))
+
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func unwindToWorkoutList( _ seg: UIStoryboardSegue) {
-        if workout.items.count != workoutTbl.numberOfRows(inSection: 0) {
-            workoutTbl.reloadData()
-        }
+        
     }
 }

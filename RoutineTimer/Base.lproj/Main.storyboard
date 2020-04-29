@@ -36,7 +36,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="40" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YRm-gN-rem">
-                                <rect key="frame" x="0.0" y="70" width="303" height="597"/>
+                                <rect key="frame" x="0.0" y="80" width="303" height="587"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WorkoutCell" rowHeight="40" id="DyR-aA-fhD" customClass="WorkoutCell" customModule="RoutineTimer" customModuleProvider="target">
@@ -92,16 +92,16 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WORKOUT LIST" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDD-st-G5V">
-                                <rect key="frame" x="10" y="25" width="114" height="20.5"/>
+                                <rect key="frame" x="10" y="30" width="114" height="20.5"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="15"/>
                                 <color key="textColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bf4-Me-aUd">
-                                <rect key="frame" x="143" y="0.0" width="160" height="70"/>
+                                <rect key="frame" x="143" y="0.0" width="160" height="80"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GB2-Sf-EJ6">
-                                        <rect key="frame" x="0.0" y="0.0" width="40" height="70"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="80"/>
                                         <color key="tintColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <state key="normal" image="trash" catalog="system">
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
@@ -111,7 +111,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwe-oa-5vp">
-                                        <rect key="frame" x="40" y="0.0" width="40" height="70"/>
+                                        <rect key="frame" x="40" y="0.0" width="40" height="80"/>
                                         <color key="tintColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <state key="normal" image="text.badge.checkmark" catalog="system">
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
@@ -121,7 +121,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mwg-2T-mcx">
-                                        <rect key="frame" x="80" y="0.0" width="40" height="70"/>
+                                        <rect key="frame" x="80" y="0.0" width="40" height="80"/>
                                         <color key="tintColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <state key="normal" image="pencil" catalog="system">
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
@@ -131,9 +131,9 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="93N-wE-CEX">
-                                        <rect key="frame" x="120" y="0.0" width="40" height="70"/>
+                                        <rect key="frame" x="120" y="0.0" width="40" height="80"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="mCr-c9-maR"/>
+                                            <constraint firstAttribute="height" constant="80" id="mCr-c9-maR"/>
                                             <constraint firstAttribute="width" constant="40" id="uyr-6a-qAe"/>
                                         </constraints>
                                         <color key="tintColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -430,7 +430,7 @@
                                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="7P6-eX-Lsi" kind="unwind" unwindAction="unwindToWorkoutList:" id="YBe-pH-363"/>
+                                                    <action selector="backBtnPressed:" destination="hhZ-B1-fny" eventType="touchUpInside" id="GXQ-b2-pHr"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADD TO WORKOUT LIST" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uQg-eE-8c7">
@@ -594,6 +594,8 @@
                         <outlet property="headerLbl" destination="uQg-eE-8c7" id="svG-AV-sfF"/>
                         <outlet property="setsTbl" destination="XMu-JM-V2r" id="bni-MO-aK9"/>
                         <segue destination="IjR-J1-Em5" kind="show" identifier="toAddSetRoutine" id="lNG-Ds-yo5"/>
+                        <segue destination="7P6-eX-Lsi" kind="unwind" identifier="unwindToAddSet" unwindAction="unwindToAddSet:" id="fpE-4O-S1G"/>
+                        <segue destination="7P6-eX-Lsi" kind="unwind" identifier="unwindToWorkoutList" unwindAction="unwindToWorkoutList:" id="fAs-4K-3Qi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VKa-tD-bRk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -760,6 +762,7 @@
                         <outlet property="routinesTbl" destination="pIw-FV-6B0" id="ts3-Z8-2yf"/>
                         <outlet property="tblPlaceholderLbl" destination="80J-I1-47f" id="wRg-8n-L5N"/>
                         <segue destination="1RR-4Z-QGg" kind="unwind" identifier="unwindToSetsList" unwindAction="unwindToSetList:" id="Dls-Kz-kVt"/>
+                        <segue destination="yVQ-bq-OYz" kind="show" identifier="toRoutineSets" id="bjP-Rg-3JU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mbf-Dj-akh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -791,7 +794,7 @@
                                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="t2v-RP-LZt" kind="unwind" unwindAction="unwindToWorkoutList:" id="CBI-59-dR1"/>
+                                                    <action selector="backBtnPressed:" destination="qA9-Bz-CV6" eventType="touchUpInside" id="lNt-BU-qKr"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADD TO WORKOUT LIST" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rtg-XT-ps6">
@@ -911,6 +914,8 @@
                         <outlet property="headerLbl" destination="Rtg-XT-ps6" id="1VJ-jA-5ce"/>
                         <outlet property="routinesTbl" destination="DFj-I0-PYo" id="8R1-A8-6YF"/>
                         <segue destination="eun-bo-fsY" kind="show" identifier="toAddRoutine" id="3qD-7a-z29"/>
+                        <segue destination="t2v-RP-LZt" kind="unwind" identifier="unwindToAddSet" unwindAction="unwindToAddSet:" id="DTV-mT-e6u"/>
+                        <segue destination="t2v-RP-LZt" kind="unwind" identifier="unwindToWorkoutList" unwindAction="unwindToWorkoutList:" id="NHU-lj-Lq9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UEH-6t-tC3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1144,6 +1149,9 @@
             <point key="canvasLocation" x="-218.40000000000001" y="55.322338830584712"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="bjP-Rg-3JU"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.counterclockwise" catalog="system" width="115" height="128"/>
         <image name="arrowtriangle.right.fill" catalog="system" width="128" height="113"/>
