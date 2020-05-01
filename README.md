@@ -1,2 +1,0 @@
-# RoutineTimer
-Workout / Routine Timer
