@@ -11,13 +11,14 @@
     </entity>
     <entity name="EntitySetRoutine" representedClassName="EntitySetRoutine" syncable="YES" codeGenerationType="class">
         <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sequence" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="time" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-        <relationship name="set" maxCount="1" deletionRule="No Action" destinationEntity="EntitySet" inverseName="routine" inverseEntity="EntitySet"/>
+        <relationship name="set" maxCount="1" deletionRule="Deny" destinationEntity="EntitySet" inverseName="routine" inverseEntity="EntitySet"/>
     </entity>
     <elements>
         <element name="EntityRoutine" positionX="-63" positionY="-18" width="128" height="88"/>
         <element name="EntitySet" positionX="-54" positionY="18" width="128" height="73"/>
-        <element name="EntitySetRoutine" positionX="-36" positionY="27" width="128" height="103"/>
+        <element name="EntitySetRoutine" positionX="-36" positionY="27" width="128" height="118"/>
     </elements>
 </model>

@@ -212,10 +212,13 @@ extension SetListVC : UITableViewDataSource, UITableViewDelegate {
             collapseExpand(section: indexPath.section)
             
             let sections = IndexSet.init(integer: indexPath.section)
-            setService.deleteSet(index: indexPath.section)
-            tableView.deleteSections(sections, with: .fade)
-            
-            tableView.reloadData()
+            setService.deleteSet(index: indexPath.section) { (success) in
+                if success {
+                    tableView.deleteSections(sections, with: .fade)
+                    
+                    tableView.reloadData()
+                }
+            }
         }
     }
     

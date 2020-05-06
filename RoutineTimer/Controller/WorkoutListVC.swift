@@ -95,7 +95,11 @@ class WorkoutListVC: UIViewController {
                     }
                 }
                 
-                self.setService.addSet(set: SetRoutines(title: alert.textFields?[0].text, routines: workoutRoutines, isCollapsed: false))
+                self.setService.addSet(set: SetRoutines(title: alert.textFields?[0].text, routines: workoutRoutines, isCollapsed: false)) { (success) in
+                    if !success {
+                        return
+                    }
+                }
                 NotificationCenter.default.post(name: NOTIF_SETS, object: nil)
             }
             saveAction.isEnabled = false

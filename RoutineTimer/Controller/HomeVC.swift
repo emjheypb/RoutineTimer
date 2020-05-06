@@ -70,8 +70,7 @@ class HomeVC: UIViewController {
 //        }
         
         RoutineService.instance.fetch()
-        
-        NotificationCenter.default.post(name: NOTIF_SETS, object: nil)
+        SetService.instance.fetch()
     }
     
     // Actions

@@ -31,6 +31,8 @@ class AddSetVC: UIViewController {
         
         headerTxtbx.delegate = self
         
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTable(_:)), name: NOTIF_SET_ROUTINES, object: nil)
+        
         setupView()
     }
     
@@ -71,9 +73,17 @@ class AddSetVC: UIViewController {
         let routines = setRoutinesService.items
         
         if update == nil {
-            setService.addSet(set: SetRoutines(title: setName, routines: routines, isCollapsed: false))
+            setService.addSet(set: SetRoutines(title: setName, routines: routines, isCollapsed: false)) { (success) in
+                if !success {
+                    return
+                }
+            }
         } else {
-            setService.updateSets(index: update, set: SetRoutines(title: setName, routines: routines, isCollapsed: setService.sets[update].isCollapsed))
+            setService.updateSets(index: update, set: SetRoutines(title: setName, routines: routines, isCollapsed: setService.sets[update].isCollapsed)) { (success) in
+                if !success {
+                    return
+                }
+            }
         }
 
         NotificationCenter.default.post(name: NOTIF_SETS, object: nil)
@@ -104,7 +114,7 @@ class AddSetVC: UIViewController {
     }
     
     @IBAction func unwindToAddSet( _ seg: UIStoryboardSegue) {
-        routinesTbl.reloadData()
+        
     }
     
 }
@@ -189,6 +199,10 @@ extension AddSetVC {
     
     @objc func backSwiped(_ recognizer: UISwipeGestureRecognizer) {
         goBack()
+    }
+    
+    @objc func refreshTable(_ sender: NotificationCenter) {
+        routinesTbl.reloadData()
     }
 }
 
