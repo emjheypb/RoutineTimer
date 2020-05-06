@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AVAudioPlayerDelegate {
+class HomeVC: UIViewController {
 
     @IBOutlet weak var routinePckr: UIPickerView!
     
@@ -66,51 +66,81 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
             SetService.instance.addSet(set: setData)
         }
         
-    }
-
-    // Delegates
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        NotificationCenter.default.post(name: NOTIF_SETS, object: nil)
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return itemsCount
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 80
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        var label = UILabel()
-        if let v = view {
-            label = v as! UILabel
+    // Actions
+    @IBAction func startBtnPressed(_ sender: Any) {
+        if itemsCount > 0 {
+            if isStarted {
+                stopTimer()
+                stop()
+            } else {
+                start()
+                startOverallTimer()
+                startRestTimer()
+            }
         }
-        
-        label.font = UIFont(name: "AvenirNext-Heavy", size: 25)
-        label.text =  workoutBreakdown[row].title
-        label.lineBreakMode = .byTruncatingTail
-        label.numberOfLines = 2
-        label.textAlignment = .center
-        
-        return label
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    @IBAction func previousBtnPressed(_ sender: Any) {
+        let prevRow = routinePckr.selectedRow(inComponent: 0) - 1
+        
+        if prevRow >= 0 {
+            stopTimer()
+            routinePckr.selectRow(prevRow, inComponent: 0, animated: true)
+            setProgress(selected: prevRow)
+            
+            if isStarted { startRestTimer() }
+        }
+    }
+    
+    @IBAction func nextBtnPressed(_ sender: Any) {
+        let nextRow = routinePckr.selectedRow(inComponent: 0) + 1
+        
+        if nextRow < itemsCount {
+            stopTimer()
+            routinePckr.selectRow(nextRow, inComponent: 0, animated: true)
+            setProgress(selected: nextRow)
+            
+            if isStarted {
+                startRestTimer()
+            } else {
+                resetAll(nextRow)
+            }
+        } else {
+            if setsStepper.value > 1 {
+                setsStepper.value -= 1
+                
+                resetAll()
+                if isStarted {
+                    startRestTimer()
+                }
+            } else {
+                stop()
+                stopTimer()
+            }
+        }
+    }
+    
+    @IBAction func stepperPressed(_ sender: Any) {
+        resetRestTimer(seconds: Int (restStepper.value))
+    }
+    
+    @IBAction func repeatBtnPressed(_ sender: Any) {
+        overallTimerLbl.text = "00 : 00 : 00"
+        
         stop()
-        stopTimer()
+        resetAll()
+    }
+    
+    @IBAction func setsStepperPressed(_ sender: Any) {
+        resetSets(sets: setsStepper.value)
+    }
+    
+}
 
-        setProgress(selected: row)
-    }
-    
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        do {
-            try session.setActive(false)
-        } catch {
-            print(error)
-        }
-    }
-    
+extension HomeVC {
     // Selectors
     @objc func dismissKeyboard(_ recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
@@ -302,74 +332,50 @@ class HomeVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AV
         startBtn.setImage(UIImage(systemName: "stop.fill"), for: .normal)
         isStarted = true
     }
+}
+
+extension HomeVC : UIPickerViewDelegate, UIPickerViewDataSource {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return itemsCount
+    }
     
-    // Actions
-    @IBAction func startBtnPressed(_ sender: Any) {
-        if itemsCount > 0 {
-            if isStarted {
-                stopTimer()
-                stop()
-            } else {
-                start()
-                startOverallTimer()
-                startRestTimer()
-            }
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 80
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label = UILabel()
+        if let v = view {
+            label = v as! UILabel
         }
-    }
-    
-    @IBAction func previousBtnPressed(_ sender: Any) {
-        let prevRow = routinePckr.selectedRow(inComponent: 0) - 1
         
-        if prevRow >= 0 {
-            stopTimer()
-            routinePckr.selectRow(prevRow, inComponent: 0, animated: true)
-            setProgress(selected: prevRow)
-            
-            if isStarted { startRestTimer() }
-        }
-    }
-    
-    @IBAction func nextBtnPressed(_ sender: Any) {
-        let nextRow = routinePckr.selectedRow(inComponent: 0) + 1
+        label.font = UIFont(name: "AvenirNext-Heavy", size: 25)
+        label.text =  workoutBreakdown[row].title
+        label.lineBreakMode = .byTruncatingTail
+        label.numberOfLines = 2
+        label.textAlignment = .center
         
-        if nextRow < itemsCount {
-            stopTimer()
-            routinePckr.selectRow(nextRow, inComponent: 0, animated: true)
-            setProgress(selected: nextRow)
-            
-            if isStarted {
-                startRestTimer()
-            } else {
-                resetAll(nextRow)
-            }
-        } else {
-            if setsStepper.value > 1 {
-                setsStepper.value -= 1
-                
-                resetAll()
-                if isStarted {
-                    startRestTimer()
-                }
-            } else {
-                stop()
-                stopTimer()
-            }
-        }
+        return label
     }
     
-    @IBAction func stepperPressed(_ sender: Any) {
-        resetRestTimer(seconds: Int (restStepper.value))
-    }
-    
-    @IBAction func repeatBtnPressed(_ sender: Any) {
-        overallTimerLbl.text = "00 : 00 : 00"
-        
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         stop()
-        resetAll()
+        stopTimer()
+
+        setProgress(selected: row)
     }
     
-    @IBAction func setsStepperPressed(_ sender: Any) {
-        resetSets(sets: setsStepper.value)
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
     }
-    
+}
+
+extension HomeVC : AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        do {
+            try session.setActive(false)
+        } catch {
+            print(error)
+        }
+    }
 }

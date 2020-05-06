@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class AddRoutineVC: UIViewController {
 
     @IBOutlet weak var bgView: UIView!
     
@@ -73,7 +73,10 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func backBtnPressed(_ sender: Any) {
         goBack()
     }
-    
+
+}
+
+extension AddRoutineVC {
     // Customs
     func setupView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
@@ -244,8 +247,9 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @objc func backSwiped(_ recognizer: UISwipeGestureRecognizer) {
         goBack()
     }
-    
-    // Delegates
+}
+
+extension AddRoutineVC : UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
@@ -266,10 +270,11 @@ class AddRoutineVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             secs = pickerData[component][row].padding(toLength: 2, withPad: "0", startingAt: 0)
         }
     }
-    
+}
+
+extension AddRoutineVC : UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-
 }

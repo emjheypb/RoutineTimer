@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SetListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SetListVC: UIViewController {
     
     @IBOutlet weak var setsTbl: UITableView!
     
@@ -38,17 +38,14 @@ class SetListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(backSwiped(_:)))
        view.addGestureRecognizer(swipe)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshSet(_:)), name: NOTIF_SETS, object: nil)
        
        addBtn.isHidden = !forWorkoutList
        
        if !forWorkoutList {
            headerLbl.text = "ADD TO SET LIST"
        }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        let sections = IndexSet.init(integersIn: 0 ... setService.sets.count - 1)
-        setsTbl.reloadSections(sections, with: .none)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -59,12 +56,62 @@ class SetListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    // @IBActions
+    @IBAction func addBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: TO_ADD_SET_ROUTINE, sender: nil)
+    }
+    
+    @IBAction func editBtnPressed(_ sender: Any) {
+        editTbl = !editTbl
+        setsTbl.isEditing = editTbl
+//        deleteBtn.isHidden = !editTbl
+        
+        if editTbl {
+            editBtn.setImage(UIImage(systemName: "multiply"), for: .normal)
+        } else {
+            editBtn.setImage(UIImage(systemName: "pencil"), for: .normal)
+        }
+    }
+    
+    @IBAction func unwindToSetList( _ seg: UIStoryboardSegue) {
+//        setsTbl.reloadData()
+    }
+    
+    @IBAction func backBtnPressed(_ sender: Any) {
+        goBack()
+    }
+    
+}
+
+extension SetListVC {
+    // Selectors
+    @objc func collapseBtnTapped(_ button: UIButton) {
+        collapseExpand(section: button.tag)
+    }
+    
+    @objc func addBtnTapped(_ sender: UIButton){
+        addItem(section: sender.tag)
+    }
+        
+    @objc func backSwiped(_ recognizer: UISwipeGestureRecognizer) {
+        goBack()
+    }
+    
+    @objc func turn(indexPath: IndexPath) {
+        let cell = setsTbl.cellForRow(at: indexPath)
+        cell!.selectedBackgroundView = nil
+    }
+    
+    @objc func refreshSet(_ sender: NotificationCenter) {
+//        let sections = IndexSet.init(integersIn: 0 ... setService.sets.count - 1)
+//        setsTbl.reloadSections(sections, with: .fade)
+        setsTbl.reloadData()
+    }
+    
     // Customs
     func collapseExpand(section: Int) {
         setService.sets[section].isCollapsed = !setService.sets[section].isCollapsed
-        
-        let sections = IndexSet.init(integer: section)
-        setsTbl.reloadSections(sections, with: .none)
+        NotificationCenter.default.post(name: NOTIF_SETS, object: nil)
     }
     
     func addItem(section: Int) {
@@ -99,32 +146,9 @@ class SetListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             performSegue(withIdentifier: UNWIND_TO_ADD_SET, sender: self)
         }
     }
-    
-    // @IBActions
-    @IBAction func addBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: TO_ADD_SET_ROUTINE, sender: nil)
-    }
-    
-    @IBAction func editBtnPressed(_ sender: Any) {
-        editTbl = !editTbl
-        setsTbl.isEditing = editTbl
-//        deleteBtn.isHidden = !editTbl
-        
-        if editTbl {
-            editBtn.setImage(UIImage(systemName: "multiply"), for: .normal)
-        } else {
-            editBtn.setImage(UIImage(systemName: "pencil"), for: .normal)
-        }
-    }
-    
-    @IBAction func unwindToSetList( _ seg: UIStoryboardSegue) {
-        setsTbl.reloadData()
-    }
-    
-    @IBAction func backBtnPressed(_ sender: Any) {
-        goBack()
-    }
-    
+}
+
+extension SetListVC : UITableViewDataSource, UITableViewDelegate {
     // Delegates
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let setData = setService.sets[section]
@@ -206,23 +230,4 @@ class SetListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return false
     }
-
-    // Selectors
-    @objc func collapseBtnTapped(_ button: UIButton) {
-        collapseExpand(section: button.tag)
-    }
-    
-    @objc func addBtnTapped(_ sender: UIButton){
-        addItem(section: sender.tag)
-    }
-        
-    @objc func backSwiped(_ recognizer: UISwipeGestureRecognizer) {
-        goBack()
-    }
-    
-    @objc func turn(indexPath: IndexPath) {
-        let cell = setsTbl.cellForRow(at: indexPath)
-        cell!.selectedBackgroundView = nil
-    }
-    
 }
