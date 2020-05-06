@@ -55,7 +55,7 @@ class AddSetVC: UIViewController {
     @IBAction func saveBtnPressed(_ sender: Any) {
         view.endEditing(true)
         
-        headerTxtbx.layer.borderColor = UIColor.placeholderText.cgColor
+        headerTxtbx.layer.borderColor = UIColor.lightGray.cgColor
         tblPlaceholderLbl.textColor = .placeholderText
         
         guard let setName = headerTxtbx.text, headerTxtbx.text != "" else {
