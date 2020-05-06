@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias CompletionHandler = (_ Success: Bool) -> ()
+
 // NOTIFICATIONS
 let NOTIF_WORKOUT = Notification.Name("notifWorkout")
 let NOTIF_SETS = Notification.Name("notifSets")

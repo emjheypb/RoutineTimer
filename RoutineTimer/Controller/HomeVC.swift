@@ -8,6 +8,9 @@
 
 import UIKit
 import AVFoundation
+import CoreData
+
+let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
 class HomeVC: UIViewController {
 
@@ -58,13 +61,15 @@ class HomeVC: UIViewController {
         
         UIApplication.shared.isIdleTimerDisabled = true
         
-        for routineData in DataBankService.instance.routineData {
-            RoutineService.instance.addRoutine(routine: routineData)
-        }
+//        for routineData in DataBankService.instance.routineData {
+//            RoutineService.instance.addRoutine(routine: routineData)
+//        }
+//
+//        for setData in DataBankService.instance.setData {
+//            SetService.instance.addSet(set: setData)
+//        }
         
-        for setData in DataBankService.instance.setData {
-            SetService.instance.addSet(set: setData)
-        }
+        RoutineService.instance.fetch()
         
         NotificationCenter.default.post(name: NOTIF_SETS, object: nil)
     }
@@ -155,7 +160,7 @@ extension HomeVC {
                 if thing.description.contains(":") {
                     workoutBreakdown.append(Routine(title: thing.title, time: thing.description))
                 } else {
-                    workoutBreakdown.append(Routine(title: thing.title, count: gf.strToInt(str: thing.description)))
+                    workoutBreakdown.append(Routine(title: thing.title, count: Int32(gf.strToInt(str: thing.description))))
                 }
             } else {
                 for routineInSet in thing.setList {
@@ -234,14 +239,14 @@ extension HomeVC {
             player.play()
             
             if isStarted {
-                if items[row].count == nil {
+                if items[row].time != nil {
                     startTimer()
                 }
             } else {
                 start()
                 stopTimer()
                 
-                if items[row].count == nil {
+                if items[row].time != nil {
                     startTimer()
                 }
             }
@@ -260,7 +265,7 @@ extension HomeVC {
         if itemsCount != 0 {
             let item = workoutBreakdown[selected]
             
-            if item.count == nil {
+            if item.time != nil {
                 progressLbl.text = item.time
             } else {
                 progressLbl.text = "\(item.count!) Counts"

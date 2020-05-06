@@ -86,7 +86,7 @@ class WorkoutListVC: UIViewController {
                         if description.contains(":") {
                             workoutRoutines.append(Routine(title: title, time: description))
                         } else {
-                            workoutRoutines.append(Routine(title: title, count: self.gf.strToInt(str: description)))
+                            workoutRoutines.append(Routine(title: title, count: Int32(self.gf.strToInt(str: description))))
                         }
                     } else {
                         for routine in setRoutines! {

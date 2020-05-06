@@ -27,6 +27,7 @@
 		5FD6ADD92450CB9B00C5F2EC /* SetHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6ADD82450CB9B00C5F2EC /* SetHeaderCell.swift */; };
 		5FDC26AD245011D5008A2FDA /* DataBankService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC26AC245011D5008A2FDA /* DataBankService.swift */; };
 		5FDC26AF245015EF008A2FDA /* SetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC26AE245015EF008A2FDA /* SetService.swift */; };
+		5FDE0F0B2462B7910097E854 /* Workout.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE0F092462B7910097E854 /* Workout.xcdatamodeld */; };
 		5FFE9CB824479045006CE0CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CB724479045006CE0CC /* AppDelegate.swift */; };
 		5FFE9CBA24479045006CE0CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE9CB924479045006CE0CC /* SceneDelegate.swift */; };
 		5FFE9CBF24479045006CE0CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FFE9CBD24479045006CE0CC /* Main.storyboard */; };
@@ -86,6 +87,7 @@
 		5FD6ADD82450CB9B00C5F2EC /* SetHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHeaderCell.swift; sourceTree = "<group>"; };
 		5FDC26AC245011D5008A2FDA /* DataBankService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBankService.swift; sourceTree = "<group>"; };
 		5FDC26AE245015EF008A2FDA /* SetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetService.swift; sourceTree = "<group>"; };
+		5FDE0F0A2462B7910097E854 /* Workout.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Workout.xcdatamodel; sourceTree = "<group>"; };
 		5FFE9CB424479045006CE0CC /* RoutineTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoutineTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FFE9CB724479045006CE0CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FFE9CB924479045006CE0CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				5FFE9CC024479049006CE0CC /* Assets.xcassets */,
 				5FFE9CC224479049006CE0CC /* LaunchScreen.storyboard */,
 				5FFE9CC524479049006CE0CC /* Info.plist */,
+				5FDE0F092462B7910097E854 /* Workout.xcdatamodeld */,
 			);
 			path = RoutineTimer;
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 				5F7F19622449607E0098EDBF /* RoundedButton.swift in Sources */,
 				5FFE9CD4244792A3006CE0CC /* SWRevealViewController.m in Sources */,
 				5FFE9CE624481C2F006CE0CC /* Constants.swift in Sources */,
+				5FDE0F0B2462B7910097E854 /* Workout.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -758,6 +762,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5FDE0F092462B7910097E854 /* Workout.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5FDE0F0A2462B7910097E854 /* Workout.xcdatamodel */,
+			);
+			currentVersion = 5FDE0F0A2462B7910097E854 /* Workout.xcdatamodel */;
+			path = Workout.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5FFE9CAC24479045006CE0CC /* Project object */;
 }

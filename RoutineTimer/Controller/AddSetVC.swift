@@ -203,7 +203,7 @@ extension AddSetVC : UITableViewDataSource, UITableViewDelegate {
 
             cell.titleLbl.text = routine.title
 
-            if routine.count == nil {
+            if routine.time != nil {
                 cell.descriptionLbl.text = routine.time
             } else {
                 cell.descriptionLbl.text = "\(routine.count!)"

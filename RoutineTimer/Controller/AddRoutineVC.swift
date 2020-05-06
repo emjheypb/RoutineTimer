@@ -91,9 +91,9 @@ extension AddRoutineVC {
             let routine = routineService.routines[update]
             
             titleTxtbx.text = routine.title
-            countSwitch.setOn(routine.count != nil, animated: true)
+            countSwitch.setOn(routine.time == nil, animated: true)
             
-            if routine.count != nil {
+            if routine.time == nil {
                 countTxtbx.text = "\(routine.count!)"
                 
                 minsLbl.textColor = .placeholderText
@@ -177,12 +177,20 @@ extension AddRoutineVC {
                 return
             }
             
-            let routine = Routine(title: title, count: count)
+            let routine = Routine(title: title, count: Int32(count))
             
             if update == nil {
-                routineService.addRoutine(routine: routine)
+                routineService.saveRoutine(routine: routine) { (success) in
+                    if !success {
+                        return
+                    }
+                }
             } else {
-                routineService.updateRoutine(index: update, routine: routine)
+                routineService.updateRoutine(index: update, routine: routine) { (success) in
+                    if !success {
+                        return
+                    }
+                }
             }
         } else {
             if mins != "00" || secs != "00" {
@@ -190,10 +198,18 @@ extension AddRoutineVC {
 //                let item = Workout(title: title, description: "\(routine.time!)", setList: nil)
                 
                 if update == nil {
-                    routineService.addRoutine(routine: routine)
+                    routineService.saveRoutine(routine: routine) { (success) in
+                        if !success {
+                            return
+                        }
+                    }
 //                    workoutService.addItem(item: item)
                 } else {
-                    routineService.updateRoutine(index: update, routine: routine)
+                    routineService.updateRoutine(index: update, routine: routine) { (success) in
+                        if !success {
+                            return
+                        }
+                    }
                 }
             } else {
                 minsLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
