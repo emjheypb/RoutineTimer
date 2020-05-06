@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class WorkoutListVC: UIViewController {
     
     @IBOutlet weak var workoutTbl: UITableView!
     
@@ -35,54 +35,6 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         workoutTbl.isEditing = editTbl
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTable(_:)), name: NOTIF_WORKOUT, object: nil)
-    }
-    
-    // Delegates
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        workout.items.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let item = workout.items[indexPath.row]
-        
-        if let cell = workoutTbl.dequeueReusableCell(withIdentifier: "WorkoutCell") as? WorkoutCell {
-            let title = item.title
-            let description = item.description
-            
-            cell.titleLbl.text = title
-            cell.timeCountLbl.text = description
-            
-            cell.duplicateBtn.tag = indexPath.row
-            cell.duplicateBtn.addTarget(self, action: #selector(duplicateTapped(_:)), for: .touchUpInside)
-            
-            return cell
-        }
-        
-        return UITableViewCell()
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            workout.deleteItem(index: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            NotificationCenter.default.post(name: NOTIF_WORKOUT, object: nil)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        workout.moveItem(fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
-    }
-    
-    // Selectors
-    @objc func duplicateTapped(_ sender: UIButton) {
-        workout.addItem(item: workout.items[sender.tag])
-    }
-    
-    @objc func reloadTable(_ sender: NotificationCenter) {
-        workoutTbl.reloadData()
-        placeholderLbl.isHidden = !(workoutTbl.numberOfRows(inSection: 0) == 0)
-        placeholderLbl.textColor = .placeholderText
     }
     
     // Actions
@@ -144,6 +96,7 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 }
                 
                 self.setService.addSet(set: SetRoutines(title: alert.textFields?[0].text, routines: workoutRoutines, isCollapsed: false))
+                NotificationCenter.default.post(name: NOTIF_SETS, object: nil)
             }
             saveAction.isEnabled = false
 
@@ -169,5 +122,56 @@ class WorkoutListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     @IBAction func unwindToWorkoutList( _ seg: UIStoryboardSegue) {
         
+    }
+}
+
+extension WorkoutListVC {
+    // Selectors
+    @objc func duplicateTapped(_ sender: UIButton) {
+        workout.addItem(item: workout.items[sender.tag])
+    }
+    
+    @objc func reloadTable(_ sender: NotificationCenter) {
+        workoutTbl.reloadData()
+        placeholderLbl.isHidden = !(workoutTbl.numberOfRows(inSection: 0) == 0)
+        placeholderLbl.textColor = .placeholderText
+    }
+}
+
+extension WorkoutListVC : UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        workout.items.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let item = workout.items[indexPath.row]
+        
+        if let cell = workoutTbl.dequeueReusableCell(withIdentifier: "WorkoutCell") as? WorkoutCell {
+            let title = item.title
+            let description = item.description
+            
+            cell.titleLbl.text = title
+            cell.timeCountLbl.text = description
+            
+            cell.duplicateBtn.tag = indexPath.row
+            cell.duplicateBtn.addTarget(self, action: #selector(duplicateTapped(_:)), for: .touchUpInside)
+            
+            return cell
+        }
+        
+        return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            workout.deleteItem(index: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            NotificationCenter.default.post(name: NOTIF_WORKOUT, object: nil)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        workout.moveItem(fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
     }
 }

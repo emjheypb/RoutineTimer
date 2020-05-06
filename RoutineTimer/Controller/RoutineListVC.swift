@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class RoutineListVC: UIViewController {
     
     @IBOutlet weak var routinesTbl: UITableView!
     
@@ -49,6 +49,34 @@ class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         }
     }
     
+    // @IBActions
+    @IBAction func addBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: TO_ADD_ROUTINE, sender: nil)
+    }
+    
+    @IBAction func editBtnPressed(_ sender: Any) {
+        editTbl = !editTbl
+        routinesTbl.isEditing = editTbl
+//        deleteBtn.isHidden = !editTbl
+        
+        if editTbl {
+            editBtn.setImage(UIImage(systemName: "multiply"), for: .normal)
+        } else {
+            editBtn.setImage(UIImage(systemName: "pencil"), for: .normal)
+        }
+    }
+    
+    @IBAction func unwindToRoutinesList( _ seg: UIStoryboardSegue) {
+        routinesTbl.reloadData()
+    }
+    
+    @IBAction func backBtnPressed(_ sender: Any) {
+        goBack()
+    }
+    
+}
+
+extension RoutineListVC {
     // Customs
     func addItem(row: Int) {
         let indexPath = IndexPath(row: row, section: 0)
@@ -91,7 +119,27 @@ class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         }
     }
     
-    // Delegates
+    // @objc
+    @objc func addBtnTapped(_ sender: UIButton){
+        addItem(row: sender.tag)
+    }
+    
+    @objc func backSwiped(_ recognizer: UISwipeGestureRecognizer) {
+        goBack()
+    }
+    
+    @objc func turn(indexPath: IndexPath) {
+        let cell = routinesTbl.cellForRow(at: indexPath)
+        
+        if forWorkoutList {
+            cell!.selectedBackgroundView = nil
+        } else {
+            cell?.selectionStyle = .none
+        }
+    }
+}
+
+extension RoutineListVC : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return routineService.routines.count
     }
@@ -140,49 +188,4 @@ class RoutineListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
-    
-    // @IBActions
-    @IBAction func addBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: TO_ADD_ROUTINE, sender: nil)
-    }
-    
-    @IBAction func editBtnPressed(_ sender: Any) {
-        editTbl = !editTbl
-        routinesTbl.isEditing = editTbl
-//        deleteBtn.isHidden = !editTbl
-        
-        if editTbl {
-            editBtn.setImage(UIImage(systemName: "multiply"), for: .normal)
-        } else {
-            editBtn.setImage(UIImage(systemName: "pencil"), for: .normal)
-        }
-    }
-    
-    @IBAction func unwindToRoutinesList( _ seg: UIStoryboardSegue) {
-        routinesTbl.reloadData()
-    }
-    
-    @IBAction func backBtnPressed(_ sender: Any) {
-        goBack()
-    }
-    
-    // @objc
-    @objc func addBtnTapped(_ sender: UIButton){
-        addItem(row: sender.tag)
-    }
-    
-    @objc func backSwiped(_ recognizer: UISwipeGestureRecognizer) {
-        goBack()
-    }
-    
-    @objc func turn(indexPath: IndexPath) {
-        let cell = routinesTbl.cellForRow(at: indexPath)
-        
-        if forWorkoutList {
-            cell!.selectedBackgroundView = nil
-        } else {
-            cell?.selectionStyle = .none
-        }
-    }
-    
 }

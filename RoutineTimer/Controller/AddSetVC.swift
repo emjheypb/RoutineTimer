@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class AddSetVC: UIViewController {
     
     @IBOutlet weak var routinesTbl: UITableView!
     @IBOutlet weak var gradientView: GradientView!
@@ -46,54 +46,6 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
         }
     }
     
-    // Delegates
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return setRoutinesService.items.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = routinesTbl.dequeueReusableCell(withIdentifier: "SetRoutineCell") as? SetRoutineCell {
-            let routine = setRoutinesService.items[indexPath.row]
-
-            cell.titleLbl.text = routine.title
-
-            if routine.count == nil {
-                cell.descriptionLbl.text = routine.time
-            } else {
-                cell.descriptionLbl.text = "\(routine.count!)"
-            }
-            
-            return cell
-        }
-        
-        return UITableViewCell()
-    }
-    
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        view.endEditing(true)
-        setRoutinesService.moveItem(fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
-    }
-    
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
-    }
-
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            setRoutinesService.deleteItem(index: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        view.endEditing(true)
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
     // @IBActions
     @IBAction func addBtnPressed(_ sender: Any) {
         view.endEditing(true)
@@ -123,7 +75,8 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
         } else {
             setService.updateSets(index: update, set: SetRoutines(title: setName, routines: routines, isCollapsed: setService.sets[update].isCollapsed))
         }
-        
+
+        NotificationCenter.default.post(name: NOTIF_SETS, object: nil)
         performSegue(withIdentifier: UNWIND_TO_SETS_LIST, sender: self)
     }
     
@@ -154,15 +107,9 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
         routinesTbl.reloadData()
     }
     
-    // Selectors
-    @objc func dismissKeyboard(_ recognizer: UITapGestureRecognizer) {
-        view.endEditing(true)
-    }
-    
-    @objc func backSwiped(_ recognizer: UISwipeGestureRecognizer) {
-        goBack()
-    }
-    
+}
+
+extension AddSetVC {
     // Custom
     func setupView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
@@ -235,4 +182,63 @@ class AddSetVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UI
         navigationController?.popViewController(animated: true)
     }
     
+    // Selectors
+    @objc func dismissKeyboard(_ recognizer: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    
+    @objc func backSwiped(_ recognizer: UISwipeGestureRecognizer) {
+        goBack()
+    }
+}
+
+extension AddSetVC : UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return setRoutinesService.items.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = routinesTbl.dequeueReusableCell(withIdentifier: "SetRoutineCell") as? SetRoutineCell {
+            let routine = setRoutinesService.items[indexPath.row]
+
+            cell.titleLbl.text = routine.title
+
+            if routine.count == nil {
+                cell.descriptionLbl.text = routine.time
+            } else {
+                cell.descriptionLbl.text = "\(routine.count!)"
+            }
+            
+            return cell
+        }
+        
+        return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        view.endEditing(true)
+        setRoutinesService.moveItem(fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            setRoutinesService.deleteItem(index: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        view.endEditing(true)
+    }
+}
+
+extension AddSetVC : UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
