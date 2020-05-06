@@ -67,7 +67,7 @@ class AddRoutineVC: UIViewController {
         switchChange(countSwitch.isOn)
         
         countLbl.textColor = .label
-        countTxtbx.layer.borderColor = UIColor.placeholderText.cgColor
+        countTxtbx.layer.borderColor = UIColor.lightGray.cgColor
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {
@@ -91,14 +91,14 @@ extension AddRoutineVC {
             let routine = routineService.routines[update]
             
             titleTxtbx.text = routine.title
-            countSwitch.setOn(routine.count != nil, animated: true)
+            countSwitch.setOn(routine.time == nil, animated: true)
             
-            if routine.count != nil {
+            if routine.time == nil {
                 countTxtbx.text = "\(routine.count!)"
                 
-                minsLbl.textColor = .placeholderText
-                secsLbl.textColor = .placeholderText
-                timeLbl.textColor = .placeholderText
+                minsLbl.textColor = .lightGray
+                secsLbl.textColor = .lightGray
+                timeLbl.textColor = .lightGray
                 timePkr.isUserInteractionEnabled = false
             } else {
                 let time = gf.getTimeInt(timeStr: routine.time)
@@ -137,9 +137,9 @@ extension AddRoutineVC {
         timePkr.isUserInteractionEnabled = !isOn
         
         if isOn {
-            minsLbl.textColor = .placeholderText
-            secsLbl.textColor = .placeholderText
-            timeLbl.textColor = .placeholderText
+            minsLbl.textColor = .lightGray
+            secsLbl.textColor = .lightGray
+            timeLbl.textColor = .lightGray
         } else {
             minsLbl.textColor = .label
             secsLbl.textColor = .label
@@ -158,8 +158,8 @@ extension AddRoutineVC {
         
         countLbl.textColor = .label
         
-        titleTxtbx.layer.borderColor = UIColor.placeholderText.cgColor
-        countTxtbx.layer.borderColor = UIColor.placeholderText.cgColor
+        titleTxtbx.layer.borderColor = UIColor.lightGray.cgColor
+        countTxtbx.layer.borderColor = UIColor.lightGray.cgColor
         
         guard let title = titleTxtbx.text, titleTxtbx.text != "" else {
             titleTxtbx.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
@@ -177,12 +177,20 @@ extension AddRoutineVC {
                 return
             }
             
-            let routine = Routine(title: title, count: count)
+            let routine = Routine(title: title, count: Int32(count))
             
             if update == nil {
-                routineService.addRoutine(routine: routine)
+                routineService.saveRoutine(routine: routine) { (success) in
+                    if !success {
+                        return
+                    }
+                }
             } else {
-                routineService.updateRoutine(index: update, routine: routine)
+                routineService.updateRoutine(index: update, routine: routine) { (success) in
+                    if !success {
+                        return
+                    }
+                }
             }
         } else {
             if mins != "00" || secs != "00" {
@@ -190,10 +198,18 @@ extension AddRoutineVC {
 //                let item = Workout(title: title, description: "\(routine.time!)", setList: nil)
                 
                 if update == nil {
-                    routineService.addRoutine(routine: routine)
+                    routineService.saveRoutine(routine: routine) { (success) in
+                        if !success {
+                            return
+                        }
+                    }
 //                    workoutService.addItem(item: item)
                 } else {
-                    routineService.updateRoutine(index: update, routine: routine)
+                    routineService.updateRoutine(index: update, routine: routine) { (success) in
+                        if !success {
+                            return
+                        }
+                    }
                 }
             } else {
                 minsLbl.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)

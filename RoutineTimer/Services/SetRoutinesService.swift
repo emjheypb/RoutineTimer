@@ -19,6 +19,7 @@ class SetRoutinesService {
     
     func addItem(item: Routine) {
         items.append(item)
+        NotificationCenter.default.post(name: NOTIF_SET_ROUTINES, object: nil)
     }
     
     func moveItem(fromIndex: Int, toIndex: Int) {
@@ -29,10 +30,5 @@ class SetRoutinesService {
     
     func deleteItem(index: Int) {
         items.remove(at: index)
-    }
-    
-    func updateItems(index: Int, item: Routine) {
-        items.remove(at: index)
-        items.insert(item, at: index)
     }
 }

@@ -11,5 +11,5 @@ import Foundation
 struct Routine {
     public private(set) var title : String!
     public private(set) var time : String!
-    public private(set) var count : Int!
+    public private(set) var count : Int32!
 }

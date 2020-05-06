@@ -95,7 +95,7 @@ extension RoutineListVC {
         routinesTbl.selectRow(at: indexPath, animated: true, scrollPosition: .none)
 
         if forWorkoutList {
-            if routine.count == nil {
+            if routine.time != nil {
                 workoutService.addItem(item: Workout(title: routine.title, description: routine.time))
             } else {
                 workoutService.addItem(item: Workout(title: routine.title, description: "\(routine.count!)"))
@@ -149,7 +149,7 @@ extension RoutineListVC : UITableViewDataSource, UITableViewDelegate {
             let routine = routineService.routines[indexPath.row]
             
             cell.titleLbl.text = routine.title
-            if routine.count == nil {
+            if routine.time != nil {
                 cell.decriptionLbl.text = routine.time
             } else {
                 cell.decriptionLbl.text = "\(routine.count!)"
@@ -169,8 +169,11 @@ extension RoutineListVC : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            routineService.deleteRoutine(index: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            routineService.deleteRoutine(index: indexPath.row) { (success) in
+                if success {
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                }
+            }
         }
     }
     

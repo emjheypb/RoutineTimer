@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="EntityRoutine" representedClassName="EntityRoutine" syncable="YES" codeGenerationType="class">
+        <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="time" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="EntitySet" representedClassName="EntitySet" syncable="YES" codeGenerationType="class">
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="routine" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EntitySetRoutine" inverseName="set" inverseEntity="EntitySetRoutine"/>
+    </entity>
+    <entity name="EntitySetRoutine" representedClassName="EntitySetRoutine" syncable="YES" codeGenerationType="class">
+        <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sequence" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="time" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="set" maxCount="1" deletionRule="Deny" destinationEntity="EntitySet" inverseName="routine" inverseEntity="EntitySet"/>
+    </entity>
+    <elements>
+        <element name="EntityRoutine" positionX="-63" positionY="-18" width="128" height="88"/>
+        <element name="EntitySet" positionX="-54" positionY="18" width="128" height="73"/>
+        <element name="EntitySetRoutine" positionX="-36" positionY="27" width="128" height="118"/>
+    </elements>
+</model>

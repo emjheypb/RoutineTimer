@@ -86,7 +86,7 @@ class WorkoutListVC: UIViewController {
                         if description.contains(":") {
                             workoutRoutines.append(Routine(title: title, time: description))
                         } else {
-                            workoutRoutines.append(Routine(title: title, count: self.gf.strToInt(str: description)))
+                            workoutRoutines.append(Routine(title: title, count: Int32(self.gf.strToInt(str: description))))
                         }
                     } else {
                         for routine in setRoutines! {
@@ -95,7 +95,11 @@ class WorkoutListVC: UIViewController {
                     }
                 }
                 
-                self.setService.addSet(set: SetRoutines(title: alert.textFields?[0].text, routines: workoutRoutines, isCollapsed: false))
+                self.setService.addSet(set: SetRoutines(title: alert.textFields?[0].text, routines: workoutRoutines, isCollapsed: false)) { (success) in
+                    if !success {
+                        return
+                    }
+                }
                 NotificationCenter.default.post(name: NOTIF_SETS, object: nil)
             }
             saveAction.isEnabled = false
