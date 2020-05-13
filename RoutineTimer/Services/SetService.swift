@@ -29,7 +29,11 @@ class SetService {
             let entitySetRoutine = EntitySetRoutine(context: manageContext)
             entitySetRoutine.title = routine.title
             entitySetRoutine.time = routine.time
-            entitySetRoutine.count = routine.count
+            if routine.count != nil {
+                entitySetRoutine.count = routine.count
+            } else {
+                entitySetRoutine.count = 0
+            }
             entitySetRoutine.sequence = sequence
             
             entitySet.addToRoutine(entitySetRoutine)
